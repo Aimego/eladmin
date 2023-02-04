@@ -1,0 +1,24 @@
+{
+    "zh": {
+        "dashboard": "工作台",
+        "profile": "个人中心",
+        "experiment": "实验管理",
+        "course": "开课管理",
+        "announcement": "公告管理",
+        "supervision": "教学监督",
+        "comment": "评价管理",
+        "interaction": "教学互动",
+        "authority": "权限管理"
+    },
+    "en": {
+        "dashboard": "Workbench",
+        "profile": "Personal center",
+        "experiment": "Experimental",
+        "course": "Course",
+        "announcement": "Announcement",
+        "supervision": "Teaching Supervision",
+        "comment": "Evaluation",
+        "interaction": "Interactive Teaching",
+        "authority": "authority management"
+    }
+}
