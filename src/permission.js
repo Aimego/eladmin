@@ -20,10 +20,10 @@ router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
   if(to.path !== '/login'){ // path 不为 login 则每次跳转页面都校验token是否存在
     if(hasToken) {
-      if(store.getters.userRouter.length == 0) {
-        await store.dispatch('user/setRouter', teacherRouter)
-        next({ path: to.fullPath, replace: true })
-      }
+      // if(store.getters.userRouter.length == 0) {
+      //   await store.dispatch('user/setRouter', teacherRouter)
+      //   next({ path: to.fullPath, replace: true })
+      // }
       next()
     }else {
       next({path:'/login'})

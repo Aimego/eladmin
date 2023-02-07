@@ -3,7 +3,6 @@ import { adminById } from '@/api/profile' // 获取用户信息
 import router from '@/router'
 import md5 from 'js-md5'
 import { getToken, setToken, 
-         getRefreshToken, setRefreshToken,
          getUserDetail, setUserDetail,
          removeToken
        } from '@/utils/auth'
@@ -12,7 +11,6 @@ import { resetRouter, loadView, noFindRouter } from '@/router'
 const getDefaultState = () => {
   return {
     token: getToken(),
-    refresh_token: getRefreshToken(),
     userDetail: getUserDetail(),
     userRouter: []
   }
@@ -28,10 +26,6 @@ const mutations = {
     state.token = token
     setToken(token)
   },
-  SET_REFRESHTOKEN: (state, token) => {
-    state.refresh_token = token
-    setRefreshToken(token)
-  },
   SET_USERDETAIL: (state, detail) => {
     state.userDetail = detail
     setUserDetail(detail)
@@ -42,18 +36,13 @@ const mutations = {
 }
 const actions = {
   // user login
-  login({ commit, dispatch }, userInfo) {
+  login({ commit }, userInfo) {
     const { username, password, code } = userInfo
     return new Promise((resolve, reject) => {
       postLogin({ username: username.trim(), password: md5(password), code: code.trim() }).then(res => {
-        let data = res.data
-        console.log(res.data)
-        dispatch('resetToken',data) // 把token存入缓存
-        dispatch('getInfo').then(res => {
-          if(res != 200) removeToken()
-          resolve()
-        })
-        // resolve()
+        commit('SET_TOKEN',res.token)
+        commit('SET_USERDETAIL',res.user)
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -63,8 +52,8 @@ const actions = {
   getInfo({ commit }) {
       return new Promise((resolve, reject)=> {
         adminById().then(response => {
-          const { data } = response
-          commit('SET_USERDETAIL',data)
+          const { user } = response
+          commit('SET_USERDETAIL',user)
           resolve(response.code)
         }).catch(err => {
           reject(err)
@@ -109,11 +98,6 @@ const actions = {
           commit('SET_ROUTES', myRouter)
           resolve()
     })
-  },
-  // 重置token
-  resetToken({ commit },{token, renew}) {
-    commit('SET_TOKEN', token)
-    commit('SET_REFRESHTOKEN', renew)
   },
   // 清除token
   clearToken({ commit }) {

@@ -19,7 +19,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <i class="el-icon-caret-bottom" />
-          <img :src="userInfo.images" class="user-avatar">
+          <img :src="userInfo.avatar" class="user-avatar">
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/profile">

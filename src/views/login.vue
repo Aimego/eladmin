@@ -15,7 +15,7 @@
             </el-form-item>
             <el-form-item prop="username">
                 <div class="Img-code">
-                    <el-input v-model="loginForm.code" placeholder="验证码">
+                    <el-input v-model="loginForm.code" placeholder="验证码" @keyup.native.enter="handleLogin">
                       <svg-icon slot="prefix" icon-class="code" class="icon"></svg-icon>
                     </el-input>
                     <div class="code" v-html="codeImg" @click="validateCodeApi"></div>
@@ -61,14 +61,8 @@
     },
     created() {
       this.validateCodeApi()
-      // 解析url
-      let url = window.location.hash
-      console.log(url)
-      if(url.indexOf('?') != -1) this.tokenParse(url)
     },
     methods: {
-      ...mapMutations('user', ['SET_TOKEN', 'SET_REFRESHTOKEN']),
-      ...mapActions('user', ['getInfo']),
       // 生成验证码
       validateCodeApi() {
         getVerification().then(res => {
@@ -80,8 +74,8 @@
           if (valid) {
             this.loginLoading = true
             this.$store.dispatch('user/login', this.loginForm).then(() => {
-              this.$router.push({path:'/'})
-              // this.$router.push('/dashboard')
+              // this.$router.push({path:'/'})
+              this.$router.push('/dashboard')
               this.loginLoading = false
             }).catch(() => {
               this.validateCodeApi()
@@ -119,6 +113,7 @@
         .Img-code {
             display: flex;
             .code {
+                width: 150px;
                 cursor: pointer;
                 margin-left: 10px;
                 height: 38px;

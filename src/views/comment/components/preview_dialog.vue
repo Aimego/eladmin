@@ -56,7 +56,8 @@ export default {
             default: false
         },
         commentId: {
-            type: Number
+            type: Number,
+            default: ''
         }
     },
     data() {

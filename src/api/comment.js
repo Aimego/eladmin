@@ -14,13 +14,19 @@ export function evaluatePageAll(id, page, size) {
 // 查看评价
 export function previewEvaluate(id) {
     return request({
-        url: `/api/dean/evaluate/byId${id}`
+        url: `/dashboard/EvaluationView`,
+        params: {
+            id
+        }
     })
 }
 
 // 删除评价
 export function DeleteEvaluate(id) {
     return request({
-        url: `/api/dean/evaluate/del${id}`
+        url: `/dashboard/DelEvaluation`,
+        params: {
+            id
+        }
     })
 }

@@ -26,17 +26,6 @@ export function headerStatistic() {
     return Promise.all([WorkBenchCount(), openCourse(), testCount()])
 }
 
-// 实验评价统计
-export function evaluate(page,size) {
-    return request({
-        method: 'POST',
-        url: '/api/dean/workbench/evaluate',
-        data: {
-            page,size
-        }
-    })
-}
-
 // 统计实验平均分
 export function WorkbenchWeek(we, id) {
    return request({
@@ -47,16 +36,30 @@ export function WorkbenchWeek(we, id) {
    }) 
 }
 
-// 最近实验平均分
-export function WorkbenchLately(id) {
+// 获取实验周期统计
+export function WorkbenchLately(status) {
     return request({
-        url: `/api/dean/workbench/lately${id}`
+        url: '/dashboard/experimentalPeriod',
+        params: {
+            status
+        }
     })
 }
 
-// 根据专业获取专业实验数
+// 获取实验专业统计
 export function WorkbenchItem() {
     return request({
-        url: '/api/dean/workbench/item'
+        url: '/dashboard/professtional'
+    })
+}
+
+// 实验评价统计
+export function evaluate(page,size) {
+    return request({
+        method: 'POST',
+        url: '/dashboard/experimentalEvaluation',
+        data: {
+            page,size
+        }
     })
 }

@@ -6,8 +6,70 @@ Vue.use(Router)
 import Layout from '@/layout'
 export const constantRoutes = [
   {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [{
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/admin/index'),
+      meta: { title: '工作台', icon: 'el-icon-s-platform' }
+    }]
+  },
+  {
+    path: '/teacher_experiment',
+    component: Layout,
+    name: 'Experiment',
+    meta: { title: '实验管理', icon: 'el-icon-s-help'},
+    redirect: '/teacher_experiment/index',
+    children: [
+      {
+        path: 'index',
+        name: 'Experiment',
+        component: () => import('@/views/experiment/teacher/index'),
+        meta: { title: '实验管理', icon: 'el-icon-s-help', breadcrumb: false},
+      },{
+        hidden: true,
+        path: 'score/:id',
+        name: 'Score',
+        component: () => import('@/views/experiment/teacher/childrenComponents/scorePreview/index'),
+        meta: { title: '成绩查看' }
+      },{
+        hidden: true,
+        path: 'analysis/:id',
+        name: 'Analysis',
+        component: () => import('@/views/experiment/teacher/childrenComponents/analysisExperiment/index'),
+        meta: { title: '数据分析' }
+      }
+    ]
+  },
+  {
+    path: '/announcement',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Announcement',
+        component: () => import('@/views/announcement/index'),
+        meta: { title: '公告管理', icon: 'el-icon-s-promotion' }
+      }
+    ]
+  },
+  {
+    path: '/comment',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Comment',
+        component: () => import('@/views/comment/index'),
+        meta: { title: '评论管理', icon: 'el-icon-s-comment' }
+      }
+    ]
+  },
+  {
     path: '/login',
-    component: () => import('@/views/login/index2'),
+    component: () => import('@/views/login'),
     hidden: true
   },
   {

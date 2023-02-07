@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查看用户信息
 export function adminById() {
     return request({
-        url: '/api/dean/admin/byId'
+        url: '/user'
     })
 }
 
@@ -13,7 +13,7 @@ export function adminImages(file) {
     formdata.append('file',file)
     return request({
         method: 'POST',
-        url: '/api/dean/admin/image',
+        url: '/user/uploadAvatar',
         data: formdata
     })
 }

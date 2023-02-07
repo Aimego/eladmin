@@ -7,7 +7,7 @@
         "Total_experiments": "总实验人次",
         "Total_amount_experiment": "总实验量",
         "Total_experimental_population": "总实验人数",
-        "Student_evaluation": "实验评论",
+        "Experimental_evaluation": "实验评价",
         "Experimental_results": "实验周期统计",
         "Major_experiments": "实验专业统计",
         "table": {
@@ -29,7 +29,7 @@
         "Total_experiments" : "Total experiments",
         "Total_amount_experiment" : "Total amount of experiment",
         "Total_experimental_population": "Total experimental population",
-        "Student_evaluation": "The experimental comments",
+        "Experimental_evaluation": "Experimental evaluation",
         "Experimental_results": "Statistics of experimental results",
         "Major_experiments": "Number of specialized experiments",
         "table": {
