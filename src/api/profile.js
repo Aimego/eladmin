@@ -22,7 +22,16 @@ export function adminImages(file) {
 export function adminUpdate(form) {
     return request({
         method: 'POST',
-        url: '/api/dean/admin/update',
+        url: '/user/updateUser',
+        data: form
+    })
+}
+
+// 修改用户密码
+export function PassUpdate(form) {
+    return request({
+        method: 'POST',
+        url: '/user/updatePass',
         data: form
     })
 }

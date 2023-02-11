@@ -1,14 +1,23 @@
 // sidebar
 // $menuText:rgba(51, 51, 51, 1);
-$menuText: var(--fontColor);
-$menuActiveText:rgba(33, 187, 126, 1);
-$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+// $menuText: var(--fontColor);
+// $menuActiveText:rgba(33, 187, 126, 1);
+// $subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
 
-$menuBg: var(--bgColor); // 侧边栏背景色
-$menuHover: var(--menuHoverbgColor); // 侧边栏hover背景色
+$menuText:#bfcbd9;
+$menuActiveText:#409EFF;
+$subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
 
-$subMenuBg:#fff;
-$subMenuHover:rgb(192, 192, 192);
+// $menuBg: var(--bgColor); // 侧边栏背景色
+// $menuHover: var(--menuHoverbgColor); // 侧边栏hover背景色
+$menuBg:#304156;
+$menuHover:#263445;
+
+// $subMenuBg:#fff;
+// $subMenuHover:rgb(192, 192, 192);
+
+$subMenuBg:#1f2d3d;
+$subMenuHover:#001528;
 
 $sideBarWidth: 210px; // 侧边栏宽度
 

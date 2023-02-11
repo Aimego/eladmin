@@ -1,36 +1,54 @@
 <template>
   <div class="experiment">
-    <div class="header">
-      <el-form inline  class="searchForm">
-        <el-form-item label="实验选择">
-          <el-select size="medium" v-model="experiment_id">
-            <el-option v-for="(item) in experimentOptiosn" :key="item.id" :label="item.exname" :value="item.id"></el-option>
+    <div class="header-contain">
+      <el-form inline :model="query" ref="filter-form">
+        <el-form-item prop="exname">
+            <el-input v-model="query.exname" placeholder="请输入实验名称" size="small"></el-input>
+        </el-form-item>
+        <el-form-item prop="fullname">
+            <el-input v-model="query.fullname" placeholder="请输入负责人名称" size="small"></el-input>
+        </el-form-item>
+        <el-form-item prop="major">
+          <el-select v-model="query.major" placeholder="请选择" size="small">
+            <el-option
+              v-for="item in professional"
+              :key="item._id"
+              :label="item.najorname"
+              :value="item.najorname"
+            >
+            </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button size="small" type="primary" icon="el-icon-search" @click="getExperimentAll(page, pageSize, query)">搜索</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button size="small" type="warning" icon="el-icon-refresh-left" @click="$refs['filter-form'].resetFields()">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
-      <div class="body">
+      <div class="body-contain">
         <el-row class="content" :gutter="24">
-            <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px" v-for="item in 5" :key="item">
+            <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px" v-for="item in experimentData" :key="item._id">
                 <div class="item">
-                    <div class="left"><img src="https://ilab-x.jxust.edu.cn/jxustassets/image/daf93206-3e1a-45e0-b3ef-e23f034b80a2黄洋界保卫战虚拟仿真实践.jpg" /></div>
+                    <div class="left"><img :src="item.imagesurl" /></div>
                     <div class="right">
-                        <div class="title">黄洋界保卫战虚拟仿真实践</div>
+                        <div class="title">{{ item.exname }}</div>
+                        <div class="fullname">实验负责人：{{ item.fullname }}</div>
                         <div class="description">
-                             实验简介：本虚拟仿真实践是将历史、现实、科技高度融合、提炼的场景模拟，从灯光、声、表、形、场域各个方面都形成了特定的演绎模式。通过编排黄洋界保卫战进展过程，对其进行特效、配音、事件等设计虚拟战斗场景，用虚拟技术按照实际工作需要进行图像和情景仿真，师生通过虚拟场景沉浸其中，自己承担教学中的某个角色来亲身体验，从而实现教育效果。 
+                             {{ item.exinfo }}
                         </div>
                         <div class="operate">
-                          <el-button type="edit" size="small" @click="experimentTabMenu('editAttribute')">编辑实验</el-button>
+                          <el-button type="edit" size="small" @click="experimentTabMenu(item)">编辑实验</el-button>
                           <el-button type="upload" size="small">上传实验</el-button>
                           <el-button size="small" @click="$router.push(`/teacher_experiment/score/145`)">成绩查看</el-button>
-                          <el-button size="small">实验评价</el-button>
                           <el-button size="small" @click="$router.push(`/teacher_experiment/analysis/145`)">数据分析</el-button>
                         </div>
                     </div>
                 </div>
             </el-col>
             <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
-              <div class="item addItem" @click="experimentTabMenu('addAttribute')">
+              <div class="item addItem" @click="experimentTabMenu({})">
                 <i class="icon el-icon-circle-plus-outline"></i>
                 <span class="text">
                   新建实验
@@ -38,20 +56,28 @@
               </div>
             </el-col>
         </el-row>
-        <Pagination class="pagination" :total="100" :page="1" :size="10" @currentPage="changePage"></Pagination>
+        <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize"></Pagination>
       </div>
       <el-dialog
          class="dialog"
          :visible="dialogVisible"
          width="40%"
-         @close="dialogVisible = false">
+         @close="dialogVisible = false"
+         @opened="() => {
+          $refs['editAttribute'].form = form
+          $refs['editAttribute'].professtion = professional
+          }"
+         >
           <template slot="title">
-              <div class="title">{{ tabTitle }}</div>
+              <div class="title">{{ '编辑实验' }}</div>
           </template>
           <div>
-            <el-tabs v-model="activeName">
-              <el-tab-pane v-for="item in tabMenu" :key="item.name" :label="item.label" :name="item.name">
-                <component :is="item.name"></component>
+            <el-tabs v-model="activeName" @tab-click="test">
+              <el-tab-pane label="实验属性" name="editAttribute">
+                <editAttribute ref="editAttribute" />
+              </el-tab-pane>
+              <el-tab-pane label="实验团队" name="editTeam">
+                <editTeam ref="editTeam" />
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -60,87 +86,84 @@
 </template>
 
 <script>
+import { experimentAll, professional } from '@/api/experiment'
 import Pagination from '@/components/common/Pagination'
 import editAttribute from './childrenComponents/editExperiment/editAttribute.vue'
-import editVideo from './childrenComponents/editExperiment/editVideo.vue'
 import editTeam from './childrenComponents/editExperiment/editTeam.vue'
-import addAttribute from './childrenComponents/editExperiment/addAttribute.vue'
 export default {
   components: {
     Pagination,
     editAttribute,
-    editVideo,
     editTeam,
-    addAttribute,
   },
   computed: {
-    tabMenu() {
-      return this.activeName == 'addAttribute' ? this.add_tabMenu : this.edit_tabMenu
-    },
-    tabTitle() {
-      return this.activeName == 'addAttribute' ? '添加实验' : '编辑实验'
-    }
   },
   data() {
     return {
-      experiment_id: '',
-      experimentOptiosn: [],
+      query: {
+        fullname: '',
+        exname: '',
+        najorname: ''
+      },
       dialogVisible: false,
+      page: 1,
+      pageSize: 5,
+      total: 0,
+      experimentData: [],
+      form: {},
+      professional: [],
       activeName: 'editAttribute',
-      edit_tabMenu: [
+      tabMenu: [
         { label: '实验属性', name: 'editAttribute' },
-        { label: '实验视频', name: 'editVideo' },
         { label: '实验团队', name: 'editTeam' }
-      ],
-      add_tabMenu: [
-        { label: '实验属性', name: 'addAttribute' }
       ]
     }
   },
+  created() {
+    this.getExperimentAll(this.page, this.pageSize, this.query)
+    professional().then(res => {
+      this.professional = res.data
+    })
+  },
   methods: {
+    getExperimentAll(page, size, query) {
+      experimentAll(page, size, query).then(res => {
+        this.experimentData = res.data
+        this.total = res.total
+      })
+    },
     changePage(e) {
-
+      this.page = e
+      this.getExperimentAll(this.page, this.pageSize, this.query)
     },
-    editClose() {
-
+    changeSize(e) {
+      this.pageSize = e
+      this.getExperimentAll(this.page, this.pageSize, this.query)
     },
-    experimentTabMenu(active) {
-      this.activeName = active
+    experimentTabMenu(form) {
+      this.form = form
       this.dialogVisible = true
+    },
+    test(event) {
+      console.log(event)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-  .el-table ::v-deep .cell{
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-  }
-  .el-button--edit {
-    background-color: #4762e2;
-    color: #fff;
-  }
   .experiment{
     color: var(--fontColor);
     flex: 1;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    .header{
-      background-color: var(--bgColor);
+    background-color: var(--bgColor);
+    padding: 0 24px;
+    .header-contain{
       display: flex;
-      align-items: center;
-      height: 80px;
-      padding: 0 24px;
-      .el-form-item ::v-deep{
-          margin-bottom: 0px;
-          margin-right: 50px;
-      }
+      margin-top: 10px;
     }
-    .body{
-      padding: 24px;
+    .body-contain{
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -169,6 +192,10 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            .fullname {
+              font-size: 14px;
+              color: rgba(153, 153, 153, 1);
+            }
             .description {
               color: rgba(153, 153, 153, 1);
               font-size: 14px;

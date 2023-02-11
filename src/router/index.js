@@ -44,26 +44,16 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/announcement',
+    path: '/systemTools',
     component: Layout,
+    alwaysShow: true,
+    meta: { title: '资源管理', icon: 'el-icon-upload' },
     children: [
       {
         path: 'index',
-        name: 'Announcement',
-        component: () => import('@/views/announcement/index'),
-        meta: { title: '公告管理', icon: 'el-icon-s-promotion' }
-      }
-    ]
-  },
-  {
-    path: '/comment',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Comment',
-        component: () => import('@/views/comment/index'),
-        meta: { title: '评论管理', icon: 'el-icon-s-comment' }
+        name: 'SystemTools',
+        component: () => import('@/views/systemTools/fileManagement/index'),
+        meta: { title: '文件管理', icon: 'el-icon-picture' }
       }
     ]
   },

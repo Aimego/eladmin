@@ -73,6 +73,7 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
+  padding: 24px;
   .theme{
     position: absolute;
     z-index: 9999;

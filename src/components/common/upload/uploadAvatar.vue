@@ -43,10 +43,10 @@
         const isType = file.type === 'image/png' || file.type === 'image/jpeg';
         const isSize = file.size / 1024 / 1024 < this.size;
         if (!isType) {
-          this.$message.error('上传的实验图片只能是 JPG 格式 或 PNG 格式!');
+          this.$message.error('上传的图片只能是 JPG 格式 或 PNG 格式!');
         }
         if (!isSize) {
-          this.$message.error(`上传实验图片大小不能超过 ${this.size}MB!`);
+          this.$message.error(`上传图片大小不能超过 ${this.size}MB!`);
         }
         return isType && isSize;
       },

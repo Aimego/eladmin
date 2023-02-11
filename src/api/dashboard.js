@@ -46,13 +46,6 @@ export function WorkbenchLately(status) {
     })
 }
 
-// 获取实验专业统计
-export function WorkbenchItem() {
-    return request({
-        url: '/dashboard/professtional'
-    })
-}
-
 // 实验评价统计
 export function evaluate(page,size) {
     return request({

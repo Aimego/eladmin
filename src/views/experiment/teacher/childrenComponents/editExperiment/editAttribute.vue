@@ -1,58 +1,54 @@
 <template>
     <div>
         <el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="实验ID" prop="id">
-                <el-input v-model="form.id" clearable></el-input>
-            </el-form-item>
             <el-form-item label="实验负责人" prop="fullname">
                 <el-input v-model="form.fullname" clearable></el-input>
             </el-form-item>
             <el-form-item label="实验名称" prop="exname">
                 <el-input v-model="form.exname" clearable></el-input>
             </el-form-item>
+            <el-form-item label="实验级别" prop="exlevel">
+                <el-radio-group v-model="form.exlevel">
+                    <el-radio :label="1">国家级</el-radio>
+                    <el-radio :label="2">省级</el-radio>
+                    <el-radio :label="3">校级</el-radio>
+                </el-radio-group>
+            </el-form-item>
             <el-form-item label="专业类别" prop="cid">
-                <el-select v-model="form.cid">
-                    <el-option v-for="item in professtion" :key="item.id" :label="item.najorname" :value="item.id"></el-option>
+                <el-select v-model="form.major">
+                    <el-option v-for="item in professtion" :key="item.id" @click.native="form.cid = item.id"  :label="item.najorname" :value="item.najorname"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="实验简介" prop="exinfo">
                 <el-input type="textarea" v-model="form.exinfo" :rows="6"></el-input>
             </el-form-item>
+            <el-form-item label="实验图片" prop="imagesurl">
+                <uploadImage :imagesrc.sync="form.imagesurl" />
+            </el-form-item>
             
             <el-form-item class="submit">
-                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm',form)">保存</el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 <script>
+import { editExperiment, addExperiment } from '@/api/experiment'
+import uploadImage from '@/components/common/upload/uploadImage.vue';
 export default {
-    data(){
-        var checkSecret = (rule, value, callback) => {
-            if((this.form.exlevel === 1 || this.form.exlevel === 2) && value.trim() == ''){
-                callback(new Error('实验密钥不能为空'))
-            }else return callback()
+    components: {
+        uploadImage
+    },
+    computed: {
+        submitExperiment() {
+            return this.form._id ? editExperiment : addExperiment
         }
+    },
+    data(){
         return{
-            form:{
-                id:'',
-                secret:'',
-                exname:'',
-                exlevel:3,
-                fullname:'',
-                school:'',
-                mid:'',
-                cid:'',
-                major:'',
-                exinfo:'',
-                year:''
-            },
+            form:{},
             professtion:[],
             rules: {
-                id: [
-                    {required:true, message: '实验ID不能为空', trigger: 'blur'}
-                ],
-                secret: [{validator:checkSecret, message: '实验密钥不能为空', trigger: 'blur'}],
                 exname: [
                     { required:true, message: '请输入实验名称', trigger: 'blur' },
                 ],
@@ -74,16 +70,28 @@ export default {
                 cid: [
                     {required:true, message:'专业名称不能为空', trigger:'blur'}
                 ],
-                year: [
-                    {required:true, message:'认证年份不能为空', trigger:'blur'}
+                imagesurl: [
+                    {required:true, message:'实验图片不能为空', trigger:'blur'}
                 ]
             }
         }
     },
     methods: {
-      resetForm(formName) {
-        this.$refs[formName].resetFields()
-      }
+        submitForm(formName,form) {
+            this.$refs[formName].validate(valid => {
+                if(valid) {
+                    this.submitExperiment(form).then(res => {
+                        console.log(form)
+                        if(res.code == 200) {
+                            this.$message.success('上传成功')
+                        }
+                    })
+                }else return false
+            })
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields()
+        },
     }
 }
 </script>

@@ -1,12 +1,6 @@
 <template>
     <div class="profile">
         <el-row class="message" :gutter="24">
-            <!-- <el-col :sm="24" :md="24" :lg="24" style="margin-bottom:44px;border: 1px solid red;">
-                <span class="title">
-                    {{$t('profile.title')}}
-                </span>
-            </el-col> -->
-
             <el-col :sm="24" :md="8" :lg="6" style="margin-bottom:24px;">
                 <el-card>
                     <div slot="header">
@@ -50,7 +44,7 @@
                                 安全设置
                             </span>
                             <span>
-                                <el-button type="text">修改密码</el-button>
+                                <el-button type="text" @click.native="$refs['updatePass'].dialogVisible = true">修改密码</el-button>
                                 <el-button type="text">修改邮箱</el-button>
                             </span>
                         </div>
@@ -76,7 +70,7 @@
                                     </el-radio-group>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button type="primary" size="small">保存配置</el-button>
+                                    <el-button type="primary" size="small" @click.native="saveProfile('form',form)">保存配置</el-button>
                                 </el-form-item>
                             </el-form>
                         </el-tab-pane>
@@ -84,6 +78,7 @@
                 </el-card>
             </el-col>
         </el-row>
+        <updatePass ref="updatePass" />
     </div>
 </template>
 
@@ -91,9 +86,10 @@
 import { adminById, adminUpdate } from '@/api/profile'
 import uploadAvatar from '@/components/common/upload/uploadAvatar.vue'
 import { mapMutations } from 'vuex'
+import updatePass from './update/updatePass.vue'
 export default {
     components: {
-        uploadAvatar
+        uploadAvatar, updatePass
     },
     data() {
         return {
@@ -139,20 +135,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .el-date-editor.el-input, .el-date-editor.el-input__inner{
-        width: 100%;
-    }
-    ::v-deep .el-textarea__inner{
-        max-width: 700px;
-    }
     .profile{
         color: var(--fontColor);
         flex: 1;
-        padding: 24px 36px;
+        // padding: 24px;
+        // border: 1px solid red;
      .message{
         height: 100%;
-        padding: 24px;
-        background-color: var(--bgColor);
+        // padding: 24px;
+        // background-color: var(--bgColor);
      }
         .avatar{
             font-size: 14px;
@@ -161,7 +152,6 @@ export default {
             flex-direction: column;
         }
         .list {
-            // margin-top: 20px;
             padding: 15px 0 10px;
             display: flex;
             justify-content: space-between;

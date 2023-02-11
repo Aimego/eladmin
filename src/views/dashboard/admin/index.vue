@@ -194,8 +194,8 @@ import PillarEchats from '@/components/common/echarts/PillarEchats.vue'
 import Pagination from '@/components/common/Pagination'
 import countTo from 'vue-count-to'
 import previewDialog from '@/views/comment/components/preview_dialog.vue'
-import { headerStatistic, evaluate, WorkbenchWeek, WorkbenchItem } from '@/api/dashboard'
-import { WorkbenchLately } from '@/api/dashboard'
+import { professional } from '@/api/experiment'
+import { headerStatistic, evaluate, WorkbenchWeek, WorkbenchLately } from '@/api/dashboard'
 import { formatMoney } from '@/utils/format' // 千分位修饰
 export default {
   name: 'Dashboard',
@@ -300,7 +300,7 @@ export default {
     },
     // 实验专业统计
     getAllWorkbenchItem() {
-      WorkbenchItem().then(res => {
+      professional().then(res => {
         let arr = []
         let allExNumber = 0 // 专业总实验数
         res.data.forEach(val => {
@@ -407,7 +407,7 @@ export default {
  .dashboard{
     color: var(--fontColor);
     flex: 1;
-    padding: 24px;
+    // padding: 24px;
     display: flex;
     flex-direction: column;
     .header{

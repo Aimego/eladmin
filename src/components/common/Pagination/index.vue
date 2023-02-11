@@ -2,13 +2,15 @@
     <el-pagination
         class="pagination"
         background
-        layout="prev, pager, next"
+        layout="sizes, prev, pager, next"
         :total="total"
         :page-size="size"
         :current-page="page"
         :small="small"
-        :hide-on-single-page="true"
+        :hide-on-single-page="false"
+        :page-sizes="[5,10,20,30,50,100]"
         @current-change="currentChange"
+        @size-change="currentSizeChange"
     >
 
     </el-pagination>
@@ -37,6 +39,9 @@ export default {
     methods:{
         currentChange(page){
             this.$emit('currentPage',page)
+        },
+        currentSizeChange(size) {
+            this.$emit('currentSize',size)
         }
     }
 }

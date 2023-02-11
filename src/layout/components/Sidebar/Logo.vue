@@ -2,7 +2,8 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link class="sidebar-logo-link" to="/">
-        <img src="@/assets/lg.png" class="sidebar-logo">
+        <img src="http://localhost:8001/statics/images/1675942324778aimegoLogo.png" class="sidebar-logo">
+        <h1 class="sidebar-title">虚拟仿真实验共享平台</h1>
       </router-link>
       <!-- <router-link v-else key="expand" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo">
@@ -42,18 +43,19 @@ export default {
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 85px;
-  line-height: 85px;
-  background: var(--bgColor);
+  height: 80px;
+  line-height: 80px;
+  // background: var(--bgColor);
+  // vertical-align: middle;
   text-align: center;
   overflow: hidden;
-
   & .sidebar-logo-link {
     height: 100%;
     width: 100%;
     & .sidebar-logo {
-      width: 182px;
-      height: 48px;
+      // width: 182px;
+      width: 44px;
+      height: 44px;
       vertical-align: middle;
       margin-right: 12px;
     }
@@ -63,7 +65,7 @@ export default {
       margin: 0;
       color: #fff;
       font-weight: 600;
-      line-height: 50px;
+      line-height: 80px;
       font-size: 14px;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
