@@ -7,6 +7,7 @@ import { getToken, setToken,
          removeToken
        } from '@/utils/auth'
 import { resetRouter, loadView, noFindRouter } from '@/router'
+import Layout from '@/layout'
 
 const getDefaultState = () => {
   return {
@@ -62,12 +63,11 @@ const actions = {
   },
   mapRouter({dispatch},routers) { // 路由组件路径修改
       for(let i = 0; i < routers.length; i++) {
-        // if(routers[i].component == 'Layout') {
-        //   routers[i].component = Layout
-        // }
+        if(routers[i].component == 'Layout') {
+          routers[i].component = Layout
+        }
         for(let j = 0; j < (routers[i].children && routers[i].children.length); j++) {
           let component = routers[i].children[j].component
-          console.log(component)
           if(typeof component != 'string') return false // 防止退出登录后 routers[i].children[j].component 已经是一个路径参数了
           routers[i].children[j].component = loadView(component)
           if(routers[i].children[j].children) { 
@@ -76,27 +76,25 @@ const actions = {
         }
       }
   },
-  setRouter({ commit, dispatch }, myRouter) {
+  setRouter({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
-        // getMenu().then(res => {
-        //   let data = res.data.filter(val => val.path)
-        //   console.log(data)
-        //   dispatch('mapRouter', data)
-        //   console.log(data)
-        //   router.options.routes = [...data,...noFindRouter,...router.options.routes]
-        //   router.addRoutes(data)
-        //   commit('SET_ROUTES', data)
-        //   resolve()
-        // }).catch(err => {
-        //   reject(err)
-        // })
-
-          dispatch('mapRouter', myRouter)
-          console.log(myRouter)
-          router.options.routes = [...myRouter,...noFindRouter,...router.options.routes]
-          router.addRoutes(myRouter)
-          commit('SET_ROUTES', myRouter)
+        getMenu().then(res => {
+          let data = res.data
+          dispatch('mapRouter', data)
+          router.options.routes = [...router.options.routes,...data]
+          router.addRoutes([...data,...noFindRouter])
+          commit('SET_ROUTES', data)
           resolve()
+        }).catch(err => {
+          reject(err)
+        })
+
+          // dispatch('mapRouter', myRouter)
+          // console.log(myRouter)
+          // router.options.routes = [...myRouter,...noFindRouter,...router.options.routes]
+          // router.addRoutes(myRouter)
+          // commit('SET_ROUTES', myRouter)
+          // resolve()
     })
   },
   // 清除token

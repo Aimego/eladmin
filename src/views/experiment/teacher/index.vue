@@ -41,8 +41,8 @@
                         <div class="operate">
                           <el-button type="edit" size="small" @click="experimentTabMenu(item)">编辑实验</el-button>
                           <el-button type="upload" size="small">上传实验</el-button>
-                          <el-button size="small" @click="$router.push(`/teacher_experiment/score/145`)">成绩查看</el-button>
-                          <el-button size="small" @click="$router.push(`/teacher_experiment/analysis/145`)">数据分析</el-button>
+                          <el-button size="small" @click="$router.push(`/experiment/score/145`)">成绩查看</el-button>
+                          <el-button size="small" @click="$router.push(`/experiment/analysis/145`)">数据分析</el-button>
                         </div>
                     </div>
                 </div>

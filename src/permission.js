@@ -3,7 +3,6 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-import { teacherRouter, adminRouter, noFindRouter, myAdminRouter } from '@/router'
 import store from './store'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -20,10 +19,10 @@ router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
   if(to.path !== '/login'){ // path 不为 login 则每次跳转页面都校验token是否存在
     if(hasToken) {
-      // if(store.getters.userRouter.length == 0) {
-      //   await store.dispatch('user/setRouter', teacherRouter)
-      //   next({ path: to.fullPath, replace: true })
-      // }
+      if(store.getters.userRouter.length == 0) {
+        await store.dispatch('user/setRouter')
+        next({ path: to.fullPath, replace: true })
+      }
       next()
     }else {
       next({path:'/login'})

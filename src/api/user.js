@@ -19,7 +19,7 @@ export function postLogin(form) {
 // 用户菜单获取
 export function getMenu() {
   return request({
-    url: '/api/menu/getMenu'
+    url: '/user/menu_authority'
   })
 }
 

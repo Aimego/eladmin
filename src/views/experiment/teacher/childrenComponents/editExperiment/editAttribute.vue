@@ -40,7 +40,7 @@ export default {
         uploadImage
     },
     computed: {
-        submitExperiment() {
+        submitExperiment_Api() {
             return this.form._id ? editExperiment : addExperiment
         }
     },
@@ -80,7 +80,7 @@ export default {
         submitForm(formName,form) {
             this.$refs[formName].validate(valid => {
                 if(valid) {
-                    this.submitExperiment(form).then(res => {
+                    this.submitExperiment_Api(form).then(res => {
                         console.log(form)
                         if(res.code == 200) {
                             this.$message.success('上传成功')
