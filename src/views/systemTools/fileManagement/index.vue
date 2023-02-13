@@ -85,7 +85,7 @@
             label="操作"
           >
             <template slot-scope="scope">
-              <el-button size="small" type="danger" @click="deleteFiles([scope.row])">删除</el-button>
+              <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteFiles([scope.row])"></el-button>
             </template>
           </el-table-column>
         </el-table>

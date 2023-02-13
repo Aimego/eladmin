@@ -1,5 +1,6 @@
 {
     "zh": {
+        "logoText": "虚拟仿真实验管理系统",
         "dashboard": "工作台",
         "profile": "个人中心",
         "experiment": "实验管理",
@@ -11,6 +12,7 @@
         "authority": "权限管理"
     },
     "en": {
+        "logoText": "Virtual system",
         "dashboard": "Workbench",
         "profile": "Personal center",
         "experiment": "Experimental",

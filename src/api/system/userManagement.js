@@ -36,7 +36,7 @@ export function editUser(form) {
 export function deleteUser(arr) {
     return request({
         method: 'POST',
-        url: 'roleManagement/deleteUser',
+        url: 'userManagement/deleteUser',
         data: {
             users: arr
         }

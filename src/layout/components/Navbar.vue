@@ -32,11 +32,6 @@
                 <i class="el-icon-s-opportunity"></i>接口对接
             </el-dropdown-item>
           </router-link>
-          <div @click="StudentCenter">
-            <el-dropdown-item>
-              <i class="el-icon-s-platform"></i>进入学生端
-            </el-dropdown-item>
-          </div>
           <el-dropdown-item divided @click.native="logout">
             <i class="el-icon-switch-button"></i>退出登录
           </el-dropdown-item>
@@ -83,9 +78,6 @@ export default {
       this.CHANGE_LANGUAGE(command)
       this.$i18n.locale = command
       window.location.reload()
-    },
-    StudentCenter() {
-      window.open(`https://ilab-x.jxust.edu.cn/jxust/#/login?from=teacher&token=${this.token}&refresh_token=${this.refresh_token}`,'_self')
     },
     logout() {
       this.$store.dispatch('user/clearToken')

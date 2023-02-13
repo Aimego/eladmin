@@ -3,7 +3,7 @@
     <transition name="sidebarLogoFade">
       <router-link class="sidebar-logo-link" to="/">
         <img src="http://localhost:8001/statics/images/1675942324778aimegoLogo.png" class="sidebar-logo">
-        <h1 class="sidebar-title">虚拟仿真实验共享平台</h1>
+        <h1 class="sidebar-title">{{ $t("sidebar.logoText") }}</h1>
       </router-link>
       <!-- <router-link v-else key="expand" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo">
