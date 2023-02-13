@@ -1,25 +1,15 @@
 <template>
   <div class="dashboard">
-    <div class="header">
-      <el-form inline  class="searchForm">
-        <el-form-item label="实验选择">
-          <el-select size="medium" v-model="experiment_id">
-            <el-option v-for="(item) in experimentOptiosn" :key="item.id" :label="item.exname" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </div>
-      <div class="body">
-        <el-row :gutter="24" class="myhead">
-        <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4'}">
+      <el-row :gutter="24" class="header">
+        <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
          <div class="item">
           <div class="text">
           <!-- 引入了i18n包，中英文切换 -->
-           <span class="title">实验浏览量</span>
+           <span class="title">{{$t('dashboard.Total_views')}}</span>
            <div class="number">
              <countTo
               :startVal="0"
-              :endVal="Statistic.bnum || 0"
+              :endVal="Statistic.browse || 0"
               :duration="2000"
              >
             </countTo>
@@ -30,14 +20,32 @@
          </div>
         </el-col>
 
-        <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4'}">
+        <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
          <div class="item">
           <div class="text">
-           <span class="title">实验人次</span>
+           <span class="title">{{$t('dashboard.Total_likes')}}</span>
            <div class="number">
              <countTo
               :startVal="0"
-              :endVal="Statistic.cnum || 0"
+              :endVal="Statistic.likes || 0"
+              :duration="2000"
+             >
+             </countTo>
+             <span class="format">人</span>
+           </div>
+          </div>
+          <svg-icon icon-class="dashboard_heart" class="icon"></svg-icon>
+         </div>
+        </el-col>
+
+        <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
+         <div class="item">
+          <div class="text">
+           <span class="title">{{$t('dashboard.Total_collection')}}</span>
+           <div class="number">
+             <countTo
+              :startVal="0"
+              :endVal="Statistic.collection || 0"
               :duration="2000"
              >
              </countTo>
@@ -48,14 +56,14 @@
          </div>
         </el-col>
 
-        <el-col  style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4'}">
+        <el-col  style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
          <div class="item">
           <div class="text">
-           <span class="title">实验人数</span>
+           <span class="title">{{$t('dashboard.Total_course')}}</span>
            <div class="number">
             <countTo
               :startVal="0"
-              :endVal="Statistic.course_count || 0"
+              :endVal="Statistic.courses || 0"
               :duration="2000"
              >
              </countTo>
@@ -66,14 +74,14 @@
          </div>
         </el-col>
 
-        <el-col  style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4'}">
+        <el-col  style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
          <div class="item">
           <div class="text">
-           <span class="title">实验平均用时</span>
+           <span class="title">{{$t('dashboard.Total_experiments')}}</span>
            <div class="number">
              <countTo
               :startVal="0"
-              :endVal="Statistic.test_count || 0"
+              :endVal="Statistic.experiments || 0"
               :duration="2000"
              >
              </countTo>
@@ -83,47 +91,69 @@
           <svg-icon icon-class="dashboard_money" class="icon"></svg-icon>
          </div>
         </el-col>
-
-        <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4'}">
-         <div class="item">
-          <div class="text">
-           <span class="title">实验完成率</span>
-           <div class="number">
-             <countTo
-              :startVal="0"
-              :endVal="Statistic.tnum || 0"
-              :duration="2000"
-             >
-             </countTo>
-             <span class="format">条</span>
-           </div>
-          </div>
-          <svg-icon icon-class="dashboard_money" class="icon amount"></svg-icon>
-         </div>
-        </el-col>
-
-        <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="24" :lg="{span : '4'}">
-         <div class="item">
-          <div class="text">
-           <span class="title">实验通过率</span>
-           <div class="number">
-             <countTo
-              :startVal="0"
-              :endVal="Statistic.enum || 0"
-              :duration="2000"
-             >
-             </countTo>
-             <span class="format">人</span>
-           </div>
-          </div>
-          <svg-icon icon-class="dashboard_money" class="icon population"></svg-icon>
-         </div>
-        </el-col>
       </el-row>
 
 
-      <el-row :gutter="24" class="content">
-        <el-col :sm="24" :md="24" :lg="24" class="echarts" style="margin-bottom:24px">
+      <el-row :gutter="24" class="body">
+        <el-col :sm="24" :md="24" :lg="11" style="margin-bottom:24px">
+          <div class="leftMenu">
+            <div class="head">
+              <div class="title">
+                {{$t('dashboard.Experimental_evaluation')}}<span class="evaNumber">(共{{total}}条)</span>
+              </div>
+            </div>
+            <div class="table">
+              <el-table
+              :data="tableData"
+              ref="table"
+              :header-cell-style="table_header"
+              :cell-style="table_cell"
+              highlight-current-row
+              @row-click="handleCurrentRow"
+              v-loading="table_loading"
+              :element-loading-background="stylize.loadingColor"
+             >
+              <el-table-column
+                type="index"
+                :label="$t('dashboard.table.Index')"
+                >
+              </el-table-column>
+
+              <el-table-column
+                :label="$t('dashboard.table.Evaluation_people')"
+                prop="username"
+                >
+              </el-table-column>
+            
+              <el-table-column
+                :label="$t('dashboard.table.Content')"
+                prop="evaluate"
+                width="200"
+              >
+              </el-table-column>
+
+              <el-table-column
+                show-overflow-tooltip	
+                :label="$t('dashboard.table.Experiment')"
+                prop="exname"
+                width="200"
+              >
+              </el-table-column>
+
+              <el-table-column
+                :label="$t('dashboard.table.Date')"
+                prop="gmtCreate"
+              >
+              </el-table-column>
+             </el-table>
+            </div>
+            <div class="pagination">
+                <Pagination class="pagin"  :total="total" :size="pageSize" :page="page" @currentPage="changePage" @currentSize="changeSize"></Pagination>
+            </div>
+         </div>
+        </el-col>
+
+        <el-col :sm="24" :md="24" :lg="13" class="echarts" style="margin-bottom:24px">
             <div class="line">
                 <div class="head">
                     <span class="title">{{$t('dashboard.Experimental_results')}}</span>
@@ -149,7 +179,6 @@
             </div>
         </el-col>
       </el-row>
-      </div>
       <previewDialog :dialogVisible.sync="dialogVisible" :commentId="commentId" @updateTable="getInitevaluate(page, pageSize)"></previewDialog>
   </div>
 </template>
@@ -165,9 +194,8 @@ import PillarEchats from '@/components/common/echarts/PillarEchats.vue'
 import Pagination from '@/components/common/Pagination'
 import countTo from 'vue-count-to'
 import previewDialog from '@/views/comment/components/preview_dialog.vue'
-import { headerStatistic, evaluate, WorkbenchWeek, WorkbenchItem } from '@/api/dashboard'
-import { WorkbenchLately } from '@/api/dashboard'
-// import { formatMoney } from '@/utils/format' // 千分位修饰
+import { professional } from '@/api/experiment'
+import { headerStatistic, evaluate, WorkbenchWeek, WorkbenchLately } from '@/api/dashboard'
 export default {
   name: 'Dashboard',
   components:{ LineEcharts, PieEcharts, PillarEchats, previewDialog, dateTabbar, latelyTabbar, datePicker, Pagination, countTo},
@@ -197,34 +225,30 @@ export default {
   data() {
     return {
       page: 1,
-      pageSize: 11,
+      pageSize: 10,
       total: 0,
-      experiment_id: '',
-      experimentOptiosn: [],
       tableData:[],
       commentId: 0, 
       table_loading: true,
-      table_timer: '',
-      table_indexY: '',
       dialogVisible: false,
       dateTabbar_index: 0,
-      Tabbar_type: 'lately',
       allExNumber: 0, // 专业总实验数
-      Statistic:{}, // header统计数据
-      date: ''
+      Statistic:{
+        browse: 71589,
+        likes: 33836,
+        collection: 22903,
+        courses: 27887,
+        experiments: 59884
+      } // header统计数据
     }
   },
   created() {
-    this.getAllheaderStatistic()
+    // this.getAllheaderStatistic()
     this.getInitevaluate(this.page, this.pageSize)
     this.$nextTick(() => {
       this.getAllWorkbenchItem()
-      // this.getAllmajor()
       this.changeBar(this.dateTabbar_index)
     })
-  },
-  destroyed() {
-    clearInterval(this.table_timer)
   },
   methods: {
     // 头部数据展示
@@ -234,9 +258,6 @@ export default {
         let course_count = res[1].data
         let test_count = res[2].data
         let obj = {...res[0].data, course_count, test_count}
-        // Object.keys(obj).forEach(val=>{
-        //   obj[val] = formatMoney(`${obj[val]}`) // 将对象内的数据按千分位修饰
-        // })
         this.Statistic = obj
       })
     },
@@ -247,7 +268,6 @@ export default {
       this.total = data.total
       this.tableData = data.data
       this.table_loading = false
-      // this.CarouseBanner()
     },
     // 实验评论统计分页
     async getevaluatePage(page , size) {
@@ -263,17 +283,9 @@ export default {
       this.page = e
       this.getevaluatePage(this.page, this.pageSize)
     },
-    tableMouseMove() {
-      clearInterval(this.table_timer)
-      let table_body = document.querySelector('.el-table__body')
-      let transform = table_body.style.transform
-      let startIndex = transform.indexOf('-')
-      let endIndex = transform.lastIndexOf('px')
-      this.table_indexY = transform.slice(startIndex+1, endIndex)
-    },
-    tableMouseLeave() {
-      console.log(this.table_indexY,'table')
-      this.carouselScreen(this.table_indexY)
+    changeSize(size) {
+      this.pageSize = size
+      this.getevaluatePage(this.page, this.pageSize, this.query)
     },
     // 选中评论行
     handleCurrentRow({id}) {
@@ -289,9 +301,9 @@ export default {
         })
       })
     },
-    // 院校实验数
+    // 实验专业统计
     getAllWorkbenchItem() {
-      WorkbenchItem().then(res => {
+      professional().then(res => {
         let arr = []
         let allExNumber = 0 // 专业总实验数
         res.data.forEach(val => {
@@ -301,85 +313,6 @@ export default {
         this.allExNumber = allExNumber
         this.InitPieEcharts(arr)
     })
-    // // 院校专业数
-    //   getAllmajor() {
-    //     WorkbenchItem().then(res => {
-    //       console.log(res)
-    //       let xData = []
-    //       let seriesData = []
-    //       res.data.forEach(val => {
-    //         xData.push(val.najorname)
-    //         seriesData.push(val.number)
-    //       })
-    //       console.log(xData)
-    //       this.$refs.pil.InitPil(xData, seriesData)
-    //     })
-    },
-    // 滚动定时器
-    // carouselScreen(scrollY = 1) {
-    //   if(this.table_timer) clearInterval(this.table_timer)
-    //   let index = scrollY
-    //   let table_body = document.querySelector('.el-table__body')
-    //   let table_bodyHeight = table_body.offsetHeight
-    //   let startPageH = table_bodyHeight - 598 // 计算 开始分页高度 = 当前滚动容器总高度 - 文档可视高度
-    //   let flag = true
-    //   let getInit_bodyHeight = ()=> { // 每次分页后重新计算当前滚动容器总高度
-    //       table_body = document.querySelector('.el-table__body')
-    //       table_bodyHeight = table_body.offsetHeight
-    //       startPageH = table_bodyHeight - 598
-    //       flag = true
-    //   }
-    //   getInit_bodyHeight()
-    //   this.table_timer =  setInterval(()=> {
-    //     index = +index + 1
-    //     if(this.page < this.total_pages) { // 计算是否后面还有分页
-    //       if(index >= startPageH && flag) { // 当前所卷去的容器高度如果等于开始分页高度则进行末尾添加数据, flag节流阀
-    //         this.page += 1
-    //         flag = false
-    //         evaluate(this.page, this.pageSize).then(res => {
-    //         this.total = res.total
-    //         this.tableData.push(...res.data)
-    //         this.$nextTick(()=> { // 这里要加上nextick，因为vue的dom渲染也是异步的
-    //           getInit_bodyHeight() 
-    //         })
-    //         })
-    //       }
-    //     }else {
-    //       index = index >= table_bodyHeight ? 0 : index
-    //     }
-    //     table_body.style.transform = 'translateY(-'+ index + 'px)'
-    //   },30)
-    // },
-    // 轮播定时器
-    CarouseBanner() {
-      if(this.table_timer) clearInterval(this.table_timer)
-      let index = 0
-      let flag = true // 节流阀(判断分页一旦请求完就不再请求了)
-      let table_data = []
-      let table_body = document.querySelector('.el-table__body')
-      let table_bodyWidth = table_body.offsetWidth
-      table_data.push(this.tableData) // 保存请求到的分页数据
-      this.table_timer =  setInterval(()=> {
-        if(this.page < (this.total_pages)) {
-          index += 1
-          this.page += 1
-          if(flag) {
-            this.getevaluatePage(this.page, this.pageSize).then(res => {
-              table_data.push(res)
-              this.tableData = table_data[index]
-            })
-          }else {
-            this.tableData = table_data[index]
-            // console.log(table_data[index])
-          }
-        } else {
-          flag = false
-          index = 0
-          this.page = 1
-          this.tableData = table_data[index]
-        }
-        // table_body.style.transform = 'translateX(-'+ (table_bodyWidth * index) + 'px)'
-      },3000)
     },
     changeBar(index) {
       this.dateTabbar_index = index
@@ -468,37 +401,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .el-table ::v-deep .cell{
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-  }
  .dashboard{
     color: var(--fontColor);
     flex: 1;
-    // padding: 24px;
     display: flex;
     flex-direction: column;
     .header{
-      // border-top: 1px solid #eee;
-      // border-bottom: 1px solid #eee;
-      background-color: var(--bgColor);
-      display: flex;
-      align-items: center;
-      height: 80px;
-      padding: 0 24px;
-      .el-form-item ::v-deep{
-          margin-bottom: 0px;
-          margin-right: 50px;
-      }
-    }
-    .body {
-      padding: 24px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      .myhead{
         flex: 15%;
         display: flex;
         flex-wrap: wrap;
@@ -509,7 +417,6 @@ export default {
          align-items: center;
          justify-content: space-between;
          background-color: var(--bgColor);
-        //  color: var(--fontColor);
          border-radius: 5px;
          box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
          padding: 24px;
@@ -517,14 +424,6 @@ export default {
       .icon{
         width: 60px;
         height: 60px;
-      }
-      .population {
-        // border: 1px solid red;
-        fill: black !important;
-        // stroke: black;
-      }
-      .amount{
-        fill: red !important;
       }
       .text{
         height: 100%;
@@ -543,9 +442,8 @@ export default {
           }
         }
       }
-      }
     }
-    .content{
+    .body{
         flex: 85%;
         display: flex;
         flex-flow: row wrap;
@@ -573,16 +471,10 @@ export default {
                 font-size: 14px;
               }
             }
-            .table{
-                // max-height: 598px;
-                flex: 1;
-                // overflow-y: hidden;
-            }
             .pagination{
               height: 50px;
               display: flex;
               align-items: center;
-              justify-content: flex-end;            
             }
 
         }
@@ -591,7 +483,6 @@ export default {
             flex-direction: column;
             .line{
                 flex: 1;
-                // position: relative;
                 border-radius: 5px;
                 box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
                 padding: 0 24px;
@@ -675,70 +566,70 @@ export default {
     }
  }
  @media only screen and (min-width: 768px) {
-    .el-col-sm-3-4 {
-      width: 14.28571428571429%;
+    .el-col-sm-4-8 {
+      width: 20%;
     }
     .el-col-sm-offset-3-4 {
-      margin-left: 14.28571428571429%;
+      margin-left: 20%;
     }
     .el-col-sm-pull-3-4 {
       position: relative;
-      right: 14.28571428571429%;
+      right: 20%;
     }
     .el-col-sm-push-3-4 {
       position: relative;
-      left: 14.28571428571429%;
+      left: 20%;
     }
   }
 
   @media only screen and (min-width: 992px) {
-    .el-col-md-3-4 {
-      width: 14.28571428571429%;
+    .el-col-md-4-8 {
+      width: 20%;
     }
     .el-col-md-offset-3-4 {
-      margin-left: 14.28571428571429%;
+      margin-left: 20%;
     }
     .el-col-md-pull-3-4 {
       position: relative;
-      right: 14.28571428571429%;
+      right: 20%;
     }
     .el-col-md-push-3-4 {
       position: relative;
-      left: 14.28571428571429%;
+      left: 20%;
     }
   }
 
   @media only screen and (min-width: 1200px) {
-    .el-col-lg-3-4 {
-      width: 14.28571428571429%;
+    .el-col-lg-4-8 {
+      width: 20%;
     }
-    .el-col-lg-offset-3-4 {
-      margin-left: 14.28571428571429%;
+    .el-col-lg-offset-4-8 {
+      margin-left: 20%;
     }
-    .el-col-lg-pull-3-4 {
+    .el-col-lg-pull-4-8 {
       position: relative;
-      right: 14.28571428571429%;
+      right: 20%;
     }
-    .el-col-lg-push-3-4 {
+    .el-col-lg-push-4-8 {
       position: relative;
-      left: 14.28571428571429%;
+      left: 20%;
     }
   }
 
   @media only screen and (min-width: 1920px) {
-    .el-col-xl-3-4 {
-      width: 14.28571428571429%;
+    .el-col-xl-4-8 {
+      width: 20%;
     }
-    .el-col-xl-offset-3-4 {
-      margin-left: 14.28571428571429%;
+    .el-col-xl-offset-4-8 {
+      margin-left: 20%;
     }
-    .el-col-xl-pull-3-4 {
+    .el-col-xl-pull-4-8 {
       position: relative;
-      right: 14.28571428571429%;
+      right: 20%;
     }
-    .el-col-xl-push-3-4 {
+    .el-col-xl-push-4-8 {
       position: relative;
-      left: 14.28571428571429%;
+      left: 20%;
     }
   }
 </style>

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '江西理工大学虚拟仿真实验共享平台',
+  title: '虚拟仿真实验后端管理系统',
 
   /**
    * @type {boolean} true | false

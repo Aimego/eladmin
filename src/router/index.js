@@ -12,7 +12,7 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/admin/index'),
+      component: () => import('@/views/dashboard'),
       meta: { title: '工作台', icon: 'el-icon-s-platform' }
     }]
   },
