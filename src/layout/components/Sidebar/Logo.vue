@@ -2,7 +2,7 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link class="sidebar-logo-link" to="/">
-        <img src="http://localhost:8001/statics/images/1675942324778aimegoLogo.png" class="sidebar-logo">
+        <img src="@/assets/aimegoLogo.png" class="sidebar-logo">
         <h1 class="sidebar-title">{{ $t("sidebar.logoText") }}</h1>
       </router-link>
       <!-- <router-link v-else key="expand" class="sidebar-logo-link" to="/">

@@ -39,7 +39,7 @@
               </div>
               <div class="operate">
                 <el-button type="primary" size="small" @click="experimentTabMenu(item)">编辑实验</el-button>
-                <el-button type="danger" size="small" @click="experimentTabMenu(item)">删除实验</el-button>
+                <el-button type="danger" size="small" @click="deleteExperiment(item._id)">删除实验</el-button>
               </div>
             </div>
           </div>
@@ -59,7 +59,10 @@
       class="dialog"
       :visible="dialogVisible"
       width="40%"
-      @close="dialogVisible = false"
+      @close="() => {
+        getExperimentAll(page, pageSize, query)
+        dialogVisible = false
+      }"
       @opened="() => {
         $refs['editAttribute'].form = form
         $refs['editAttribute'].professtion = professional
@@ -69,12 +72,9 @@
         <div class="title">{{ '编辑实验' }}</div>
       </template>
       <div>
-        <el-tabs v-model="activeName" @tab-click="test">
+        <el-tabs v-model="activeName">
           <el-tab-pane label="实验属性" name="editAttribute">
             <editAttribute ref="editAttribute" />
-          </el-tab-pane>
-          <el-tab-pane label="实验团队" name="editTeam">
-            <editTeam ref="editTeam" />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { experimentAll, professional } from '@/api/experiment'
+import { experimentAll, professional, deleteExperiment } from '@/api/experiment'
 import Pagination from '@/components/common/Pagination'
 import editAttribute from './childrenComponents/editExperiment/editAttribute.vue'
 export default {
@@ -138,8 +138,20 @@ export default {
       this.form = form
       this.dialogVisible = true
     },
-    test(event) {
-      console.log(event)
+    deleteExperiment(id) {
+      this.$confirm(`确认删除该实验?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteExperiment(id).then(res => {
+          if (res.code === 200) {
+            this.$message.success('删除成功')
+            this.getExperimentAll(this.page, this.pageSize, this.query)
+          }
+        })
+      }).catch(() => {
+      })
     }
   }
 }

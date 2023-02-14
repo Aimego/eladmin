@@ -2,7 +2,7 @@
   <div class="upload">
     <el-upload
       class="avatar-uploader"
-      action="http://localhost:8001/upload"
+      :action="action"
       name="file"
       :auto-upload="true"
       :headers="headers"
@@ -39,6 +39,11 @@ export default {
       uploadUrl: '',
       showProgress: false,
       percentage: 0
+    }
+  },
+  computed: {
+    action() {
+      return `${process.env.VUE_APP_BASE_API}/upload`
     }
   },
   methods: {

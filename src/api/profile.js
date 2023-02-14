@@ -8,13 +8,11 @@ export function adminById() {
 }
 
 // 上传用户头像
-export function adminImages(file) {
-  const formdata = new FormData()
-  formdata.append('file', file)
+export function adminImages(avatar) {
   return request({
     method: 'POST',
     url: '/user/uploadAvatar',
-    data: formdata
+    data: { avatar }
   })
 }
 

@@ -1,15 +1,15 @@
 <template>
   <div class="upload">
     <div class="avatar">
-      <!-- <span class="tips">头像</span> -->
-      <img :src="uploadUrl || avatar">
+      <img :src="uploadUrl || imagesrc">
     </div>
     <el-upload
       class="uploadAvatar"
-      action=""
-      :http-request="upload"
+      :action="action"
+      :headers="headers"
       :auto-upload="true"
       :before-upload="beforeAvatarUpload"
+      :on-success="handleSuccess"
       :show-file-list="false"
       accept=".png,.jpg,.jpeg"
     >
@@ -18,11 +18,12 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import { adminImages } from '@/api/profile'
-import { mapActions } from 'vuex'
+import { getToken } from '@/utils/auth'
 export default {
   props: {
-    avatar: {
+    imagesrc: {
       type: String,
       default: ''
     },
@@ -33,15 +34,22 @@ export default {
   },
   data() {
     return {
+      headers: { 'authorization': getToken() },
       uploadUrl: '',
       upload_loading: false
     }
   },
+  computed: {
+    action() {
+      return `${process.env.VUE_APP_BASE_API}/upload`
+    }
+  },
   methods: {
-    ...mapActions('user', ['getInfo']),
+    ...mapMutations('user', ['SET_USERDETAIL']),
     beforeAvatarUpload(file) {
       const isType = file.type === 'image/png' || file.type === 'image/jpeg'
       const isSize = file.size / 1024 / 1024 < this.size
+      this.upload_loading = true
       if (!isType) {
         this.$message.error('上传的图片只能是 JPG 格式 或 PNG 格式!')
       }
@@ -50,16 +58,15 @@ export default {
       }
       return isType && isSize
     },
-    upload(fileObj) {
-      this.upload_loading = true
-      adminImages(fileObj.file).then(res => {
-        if (res.code === 200) {
-          this.uploadUrl = URL.createObjectURL(fileObj.file)
-          this.getInfo()
-          this.$message.success('上传成功')
-        }
-        this.upload_loading = false
-      })
+    handleSuccess(res, file) {
+      this.upload_loading = false
+      if (res.code === 200) {
+        this.uploadUrl = URL.createObjectURL(file.raw)
+        this.$emit('update:imagesrc', res.imageurl)
+        adminImages(res.imageurl).then(docs => {
+          this.SET_USERDETAIL(docs.data)
+        })
+      }
     }
   }
 }

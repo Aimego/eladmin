@@ -2,7 +2,7 @@
   <div class="upload">
     <el-upload
       ref="uploads"
-      action="http://localhost:8001/upload"
+      :action="action"
       name="file"
       drag
       :auto-upload="false"
@@ -31,6 +31,11 @@ export default {
       headers: { 'authorization': getToken() },
       showProgress: false,
       percentage: 0
+    }
+  },
+  computed: {
+    action() {
+      return `${process.env.VUE_APP_BASE_API}/upload`
     }
   },
   methods: {

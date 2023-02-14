@@ -8,7 +8,7 @@
           </div>
           <div>
             <div class="avatar">
-              <uploadAvatar :avatar="form.avatar" />
+              <uploadAvatar :imagesrc.sync="form.avatar" />
             </div>
             <div class="list">
               <span>
