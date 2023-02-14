@@ -20,12 +20,12 @@ export function setToken(token) {
   return window.sessionStorage.setItem(TokenKey, token)
 }
 
-export function setRefreshToken(token){
+export function setRefreshToken(token) {
   return window.sessionStorage.setItem(Refresh_TokenKey, token)
 }
 
-export function setUserDetail(detail){
-  return window.sessionStorage.setItem(UserDetail,JSON.stringify(detail))
+export function setUserDetail(detail) {
+  return window.sessionStorage.setItem(UserDetail, JSON.stringify(detail))
 }
 
 export function removeToken() {

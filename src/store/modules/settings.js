@@ -19,7 +19,7 @@ const mutations = {
   },
   CHANGE_LANGUAGE: (state, lang) => {
     state.language = lang
-    window.sessionStorage.setItem('language',lang)
+    window.sessionStorage.setItem('language', lang)
   },
   CHANGE_STYLIZE: (state) => {
     const dom = getComputedStyle(document.documentElement)

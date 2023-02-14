@@ -5,12 +5,8 @@
 </template>
 
 <script>
-import ThemeSettings from '@/components/ThemeSettings'
 export default {
-  name: 'App',
-  components: {
-    ThemeSettings
-  }
+  name: 'App'
 }
 </script>
 
@@ -48,5 +44,5 @@ export default {
     background-color: var(--appMainbgColor);
     display: flex;
     // min-height: calc(100vh - 85px) !important;
-  }  
+  }
 </style>

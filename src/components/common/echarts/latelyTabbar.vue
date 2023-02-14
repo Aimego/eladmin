@@ -1,30 +1,30 @@
 <template>
-    <div class="tabbar">
-        <span
-            v-for="(item, index) in tabbar"
-            :key="index"
-            :class="['item',{'item_act': act_index === index}]"
-            @click="changeActBar(index)"
-            >
-            {{item}}
-        </span>
-    </div>
+  <div class="tabbar">
+    <span
+      v-for="(item, index) in tabbar"
+      :key="index"
+      :class="['item',{'item_act': act_index === index}]"
+      @click="changeActBar(index)"
+    >
+      {{ item }}
+    </span>
+  </div>
 </template>
 <script>
 export default {
-    name: 'latelyTabbar',
-    data() {
-        return {
-            act_index: 0,
-            tabbar:['按周', '按月','按年']
-        }
-    },
-    methods: {
-        changeActBar(index) {
-            this.act_index = index
-            this.$emit('changeBar', index)
-        }
+  name: 'LatelyTabbar',
+  data() {
+    return {
+      act_index: 0,
+      tabbar: ['按周', '按月', '按年']
     }
+  },
+  methods: {
+    changeActBar(index) {
+      this.act_index = index
+      this.$emit('changeBar', index)
+    }
+  }
 }
 </script>
 

@@ -1,21 +1,21 @@
 <template>
-    <div class="analysis">
-        <div class="content">
-            <div class="main course">
-                <div class="head">
-                    <span class="title">第三方对接接口</span>
-                    <div class="iconfont icon-ai207 back" @click="$router.go(-1)">返回</div>
-                </div>
-                <div class="mainContent">
-                    <el-tabs tab-position="left">
-                        <el-tab-pane label="webgl 对接规范"><webgl></webgl></el-tab-pane>
-                        <el-tab-pane label="实验数据回传"><experimentData></experimentData></el-tab-pane>
-                        <el-tab-pane label="PC对接规范"><pcJoin></pcJoin></el-tab-pane>
-                    </el-tabs>
-                </div>
-            </div>
+  <div class="analysis">
+    <div class="content">
+      <div class="main course">
+        <div class="head">
+          <span class="title">第三方对接接口</span>
+          <div class="iconfont icon-ai207 back" @click="$router.go(-1)">返回</div>
         </div>
+        <div class="mainContent">
+          <el-tabs tab-position="left">
+            <el-tab-pane label="webgl 对接规范"><webgl /></el-tab-pane>
+            <el-tab-pane label="实验数据回传"><experimentData /></el-tab-pane>
+            <el-tab-pane label="PC对接规范"><pcJoin /></el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -23,9 +23,9 @@ import webgl from './tabs/webgl_interface.vue'
 import experimentData from './tabs/experimentData.vue'
 import pcJoin from './tabs/pcJoin.vue'
 export default {
-    components: {
-        webgl, experimentData, pcJoin
-    }
+  components: {
+    webgl, experimentData, pcJoin
+  }
 }
 </script>
 

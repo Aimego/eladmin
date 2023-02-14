@@ -17,20 +17,20 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
-  if(to.path !== '/login'){ // path 不为 login 则每次跳转页面都校验token是否存在
-    if(hasToken) {
-      if(store.getters.userRouter.length == 0) {
+  if (to.path !== '/login') { // path 不为 login 则每次跳转页面都校验token是否存在
+    if (hasToken) {
+      if (store.getters.userRouter.length === 0) {
         await store.dispatch('user/setRouter')
         next({ path: to.fullPath, replace: true })
       }
       next()
-    }else {
-      next({path:'/login'})
+    } else {
+      next({ path: '/login' })
     }
-  }else { // path 为 login 则校验缓存token是否被清空了，如果没清空则不跳转
-    if(hasToken) {
-      next({path: from.path})
-    }else {
+  } else { // path 为 login 则校验缓存token是否被清空了，如果没清空则不跳转
+    if (hasToken) {
+      next({ path: from.path })
+    } else {
       next()
     }
   }

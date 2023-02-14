@@ -35,7 +35,7 @@ export default {
       if (!this.isDashboard(first)) {
         matched = [{ path: '/', meta: { title: this.$t('sidebar.dashboard') }}].concat(matched)
       }
-    
+
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     },
     isDashboard(route) {

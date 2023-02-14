@@ -24,14 +24,14 @@ export const constantRoutes = [
   {
     path: '/profile',
     component: Layout,
-    redirect:'/profile/index',
+    redirect: '/profile/index',
     hidden: true,
     children: [
       {
         path: 'index',
         name: 'Profile',
         component: () => import('@/views/profile/index'),
-        meta: { title: i18n.t('sidebar.profile')}
+        meta: { title: i18n.t('sidebar.profile') }
       }
     ]
   },

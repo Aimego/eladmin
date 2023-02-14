@@ -1,9 +1,9 @@
 <template>
   <div class="tools">
     <div class="header-contain">
-      <el-form inline :model="query" ref="filter-form">
+      <el-form ref="filter-form" inline :model="query">
         <el-form-item prop="originalname">
-            <el-input v-model="query.originalname" placeholder="请输入资源名称或类型" size="small"></el-input>
+          <el-input v-model="query.originalname" placeholder="请输入资源名称或类型" size="small" />
         </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="el-icon-search" @click="getFileAll(page, pageSize, query)">搜索</el-button>
@@ -14,95 +14,89 @@
       </el-form>
     </div>
     <div class="edit-contain">
-          <el-button type="primary" size="small" icon="el-icon-upload" @click="dialogVisible = true">上传</el-button>
-          <el-button type="danger" size="small" icon="el-icon-delete" @click="deleteFiles(multipleSelection)" :disabled="multipleSelection.length == 0">删除</el-button>
-      </div>
+      <el-button type="primary" size="small" icon="el-icon-upload" @click="dialogVisible = true">上传</el-button>
+      <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length === 0" @click="deleteFiles(multipleSelection)">删除</el-button>
+    </div>
 
     <div class="body-contain">
-        <el-table
-          :data="tableData"
-          :header-cell-style="table_header"
-          :cell-style="table_cell"
-          @selection-change="handleSelectionChange"
-          v-loading="table_loading"
+      <el-table
+        v-loading="table_loading"
+        :data="tableData"
+        :header-cell-style="table_header"
+        :cell-style="table_cell"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column
+          type="selection"
+        />
+
+        <el-table-column
+          label="文件名称"
+          prop="originalname"
+          show-overflow-tooltip
+        />
+
+        <el-table-column
+          label="预览文件"
         >
-          <el-table-column
-            type="selection"
-          >
-          </el-table-column>
+          <template slot-scope="scope">
+            <el-image
+              class="image-avatar"
+              :src="scope.row.imageurl"
+              :preview-src-list="[scope.row.imageurl]"
+              fit="contain"
+              lazy
+            >
+              <a slot="error" :href="scope.row.imageurl" target="_blank">
+                <i class="el-icon-document" />
+              </a>
+            </el-image>
 
-          <el-table-column
-           label="文件名称"
-           prop="originalname"
-           show-overflow-tooltip
-          >
-          </el-table-column>
+          </template>
+        </el-table-column>
 
-          <el-table-column
-            label="预览文件"
-          >
-            <template slot-scope="scope">
-              <el-image
-                class="image-avatar" 
-                :src="scope.row.imageurl" 
-                :preview-src-list="[scope.row.imageurl]"
-                fit="contain"
-                lazy
-                >
-                  <a :href="scope.row.imageurl" target="_blank" slot="error">
-                    <i class="el-icon-document" />
-                  </a>
-                </el-image>
+        <el-table-column
+          label="文件类型"
+          prop="type"
+        />
 
-            </template>
-          </el-table-column>
+        <el-table-column
+          label="大小"
+          prop="size"
+        />
 
-          <el-table-column
-            label="文件类型"
-            prop="type"
-          >
-          </el-table-column>
+        <el-table-column
+          label="操作人"
+          prop="createBy"
+        />
 
-          <el-table-column
-            label="大小"
-            prop="size"
-          >
-          </el-table-column>
+        <el-table-column
+          label="创建时间"
+          prop="createTime"
+        />
 
-          <el-table-column
-            label="操作人"
-            prop="createBy"
-          >
-          </el-table-column>
-
-          <el-table-column
-            label="创建时间"
-            prop="createTime"
-          >
-          </el-table-column>
-
-          <el-table-column
-            label="操作"
-          >
-            <template slot-scope="scope">
-              <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteFiles([scope.row])"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-       </div>
-       <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize"></Pagination>
-       <el-dialog 
-          title="文件上传"
-          :visible.sync="dialogVisible"
-          width="30%"
-          @close="getFileAll(page, pageSize, query)"
-          >
-          <Uploads ref="uploads" />
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="$refs.uploads.submitUploads()">确 定</el-button>
-          </span>
-       </el-dialog>
+        <el-table-column
+          label="操作"
+        >
+          <template slot-scope="scope">
+            <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteFiles([scope.row])" />
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize" />
+    <el-dialog
+      title="文件上传"
+      :visible.sync="dialogVisible"
+      width="30%"
+      @close="getFileAll(page, pageSize, query)"
+    >
+      <Uploads ref="uploads" />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="$refs.uploads.submitUploads()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -111,13 +105,13 @@ import { fileAll, deleteFiles } from '@/api/fileManagement'
 import Uploads from '@/components/common/upload/uploads.vue'
 import Pagination from '@/components/common/Pagination'
 export default {
-  components:{
+  components: {
     Pagination, Uploads
   },
   data() {
     return {
       query: {
-        originalname:''
+        originalname: ''
       },
       page: 1,
       pageSize: 10,
@@ -131,7 +125,7 @@ export default {
   computed: {
     table_header() {
       return {
-        textAlign:'center'
+        textAlign: 'center'
       }
     },
     table_cell() {
@@ -170,14 +164,14 @@ export default {
         type: 'warning'
       }).then(() => {
         deleteFiles(vals).then(res => {
-          if(res.code == 200) {
+          if (res.code === 200) {
             this.$message.success('删除成功')
             this.getFileAll(this.page, this.pageSize, this.query)
           }
         })
       }).catch(() => {
       })
-    },
+    }
   }
 }
 </script>

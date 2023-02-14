@@ -1,38 +1,24 @@
 <template>
-  <section class="app-main" ref="appmain">
+  <section ref="appmain" class="app-main">
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
-    <ThemeSettings class="theme" 
+    <ThemeSettings
+      class="theme"
       draggable="true"
+      :style="{left:`${ThemesetX}px`, top:`${ThemesetY}px`}"
       @dragstart.native="dragstart"
       @dragend.native="dragend"
-      :style="{left:`${ThemesetX}px`, top:`${ThemesetY}px`}"
-      ></ThemeSettings>
+    />
   </section>
 </template>
 
 <script>
 import ThemeSettings from '@/components/ThemeSettings'
 export default {
-  components:{
-    ThemeSettings
-  },
   name: 'AppMain',
-  computed: {
-    key() {
-      return this.$route.path
-    },
-    ThemesetX() {
-      if(this.ThemeoffsetX > this.ClientWidth) return this.ClientWidth
-      else if(this.ThemeoffsetX < 0) return 0
-      else return this.ThemeoffsetX
-    },
-    ThemesetY() {
-      if(this.ThemeoffsetY > this.ClientHeight) return this.ClientHeight
-      else if(this.ThemeoffsetY < 0) return 0
-      else return this.ThemeoffsetY
-    }
+  components: {
+    ThemeSettings
   },
   data() {
     return {
@@ -44,21 +30,36 @@ export default {
       ClientHeight: 0
     }
   },
+  computed: {
+    key() {
+      return this.$route.path
+    },
+    ThemesetX() {
+      if (this.ThemeoffsetX > this.ClientWidth) return this.ClientWidth
+      else if (this.ThemeoffsetX < 0) return 0
+      else return this.ThemeoffsetX
+    },
+    ThemesetY() {
+      if (this.ThemeoffsetY > this.ClientHeight) return this.ClientHeight
+      else if (this.ThemeoffsetY < 0) return 0
+      else return this.ThemeoffsetY
+    }
+  },
   mounted() {
-    this.ClientWidth = this.$refs.appmain.clientWidth - 48 // 可移动最大阈值x轴范围 = appMain最大宽度 - themes最大宽度 
+    this.ClientWidth = this.$refs.appmain.clientWidth - 48 // 可移动最大阈值x轴范围 = appMain最大宽度 - themes最大宽度
     this.ThemeoffsetX = this.ClientWidth
     this.ClientHeight = this.$refs.appmain.clientHeight - 48
   },
   methods: {
     dragstart(e) {
-      let {clientX, clientY} = e
+      const { clientX, clientY } = e
       this.offsetX = clientX
       this.offsetY = clientY
     },
     dragend(e) {
-      let {clientX, clientY} = e
-      let currentX = clientX - this.offsetX // 计算偏移量
-      let currentY = clientY - this.offsetY
+      const { clientX, clientY } = e
+      const currentX = clientX - this.offsetX // 计算偏移量
+      const currentY = clientY - this.offsetY
       this.ThemeoffsetX += currentX
       this.ThemeoffsetY += currentY
     }

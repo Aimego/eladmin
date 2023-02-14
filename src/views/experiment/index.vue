@@ -1,12 +1,12 @@
 <template>
   <div class="experiment">
     <div class="header-contain">
-      <el-form inline :model="query" ref="filter-form">
+      <el-form ref="filter-form" inline :model="query">
         <el-form-item prop="exname">
-            <el-input v-model="query.exname" placeholder="请输入实验名称" size="small"></el-input>
+          <el-input v-model="query.exname" placeholder="请输入实验名称" size="small" />
         </el-form-item>
         <el-form-item prop="fullname">
-            <el-input v-model="query.fullname" placeholder="请输入负责人名称" size="small"></el-input>
+          <el-input v-model="query.fullname" placeholder="请输入负责人名称" size="small" />
         </el-form-item>
         <el-form-item prop="major">
           <el-select v-model="query.major" placeholder="请选择" size="small">
@@ -15,8 +15,7 @@
               :key="item._id"
               :label="item.najorname"
               :value="item.najorname"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -27,74 +26,70 @@
         </el-form-item>
       </el-form>
     </div>
-      <div class="body-contain">
-        <el-row class="content" :gutter="24">
-            <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px" v-for="item in experimentData" :key="item._id">
-                <div class="item">
-                    <div class="left"><img :src="item.imagesurl" /></div>
-                    <div class="right">
-                        <div class="title">{{ item.exname }}</div>
-                        <div class="fullname">实验负责人：{{ item.fullname }}</div>
-                        <div class="description">
-                             {{ item.exinfo }}
-                        </div>
-                        <div class="operate">
-                          <el-button type="primary" size="small" @click="experimentTabMenu(item)">编辑实验</el-button>
-                          <el-button type="danger" size="small" @click="experimentTabMenu(item)">删除实验</el-button>
-                        </div>
-                    </div>
-                </div>
-            </el-col>
-            <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
-              <div class="item addItem" @click="experimentTabMenu({})">
-                <i class="icon el-icon-circle-plus-outline"></i>
-                <span class="text">
-                  新建实验
-                </span>
+    <div class="body-contain">
+      <el-row class="content" :gutter="24">
+        <el-col v-for="item in experimentData" :key="item._id" :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
+          <div class="item">
+            <div class="left"><img :src="item.imagesurl"></div>
+            <div class="right">
+              <div class="title">{{ item.exname }}</div>
+              <div class="fullname">实验负责人：{{ item.fullname }}</div>
+              <div class="description">
+                {{ item.exinfo }}
               </div>
-            </el-col>
-        </el-row>
-        <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize"></Pagination>
-      </div>
-      <el-dialog
-         class="dialog"
-         :visible="dialogVisible"
-         width="40%"
-         @close="dialogVisible = false"
-         @opened="() => {
-          $refs['editAttribute'].form = form
-          $refs['editAttribute'].professtion = professional
-          }"
-         >
-          <template slot="title">
-              <div class="title">{{ '编辑实验' }}</div>
-          </template>
-          <div>
-            <el-tabs v-model="activeName" @tab-click="test">
-              <el-tab-pane label="实验属性" name="editAttribute">
-                <editAttribute ref="editAttribute" />
-              </el-tab-pane>
-              <el-tab-pane label="实验团队" name="editTeam">
-                <editTeam ref="editTeam" />
-              </el-tab-pane>
-            </el-tabs>
+              <div class="operate">
+                <el-button type="primary" size="small" @click="experimentTabMenu(item)">编辑实验</el-button>
+                <el-button type="danger" size="small" @click="experimentTabMenu(item)">删除实验</el-button>
+              </div>
+            </div>
           </div>
-      </el-dialog>
+        </el-col>
+        <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
+          <div class="item addItem" @click="experimentTabMenu({})">
+            <i class="icon el-icon-circle-plus-outline" />
+            <span class="text">
+              新建实验
+            </span>
+          </div>
+        </el-col>
+      </el-row>
+      <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize" />
     </div>
+    <el-dialog
+      class="dialog"
+      :visible="dialogVisible"
+      width="40%"
+      @close="dialogVisible = false"
+      @opened="() => {
+        $refs['editAttribute'].form = form
+        $refs['editAttribute'].professtion = professional
+      }"
+    >
+      <template slot="title">
+        <div class="title">{{ '编辑实验' }}</div>
+      </template>
+      <div>
+        <el-tabs v-model="activeName" @tab-click="test">
+          <el-tab-pane label="实验属性" name="editAttribute">
+            <editAttribute ref="editAttribute" />
+          </el-tab-pane>
+          <el-tab-pane label="实验团队" name="editTeam">
+            <editTeam ref="editTeam" />
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 import { experimentAll, professional } from '@/api/experiment'
 import Pagination from '@/components/common/Pagination'
 import editAttribute from './childrenComponents/editExperiment/editAttribute.vue'
-import editTeam from './childrenComponents/editExperiment/editTeam.vue'
 export default {
   components: {
     Pagination,
-    editAttribute,
-    editTeam,
-  },
-  computed: {
+    editAttribute
   },
   data() {
     return {
@@ -112,10 +107,11 @@ export default {
       professional: [],
       activeName: 'editAttribute',
       tabMenu: [
-        { label: '实验属性', name: 'editAttribute' },
-        { label: '实验团队', name: 'editTeam' }
+        { label: '实验属性', name: 'editAttribute' }
       ]
     }
+  },
+  computed: {
   },
   created() {
     this.getExperimentAll(this.page, this.pageSize, this.query)
@@ -225,7 +221,7 @@ export default {
       height: 50px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;            
+      justify-content: flex-end;
     }
 </style>
 

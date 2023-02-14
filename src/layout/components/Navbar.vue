@@ -24,16 +24,16 @@
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/profile">
             <el-dropdown-item>
-              <i class="el-icon-s-custom"></i>个人信息
+              <i class="el-icon-s-custom" />个人信息
             </el-dropdown-item>
           </router-link>
           <router-link to="/interface">
             <el-dropdown-item>
-                <i class="el-icon-s-opportunity"></i>接口对接
+              <i class="el-icon-s-opportunity" />接口对接
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
-            <i class="el-icon-switch-button"></i>退出登录
+            <i class="el-icon-switch-button" />退出登录
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { resetRouter } from '@/router'
 import { mapGetters, mapMutations } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
@@ -50,6 +49,14 @@ export default {
   components: {
     Breadcrumb,
     Hamburger
+  },
+  filters: {
+    formatLanguage(mes) {
+      switch (mes) {
+        case 'zh' : return '中文'
+        case 'en' : return 'English'
+      }
+    }
   },
   computed: {
     ...mapGetters([
@@ -59,18 +66,10 @@ export default {
       'userInfo',
       'token',
       'refresh_token'
-    ]),
-  },
-  filters:{
-    formatLanguage(mes){
-      switch(mes){
-        case 'zh' : return '中文';
-        case 'en' : return 'English'
-      }
-    }
+    ])
   },
   methods: {
-    ...mapMutations('settings',['CHANGE_LANGUAGE']),
+    ...mapMutations('settings', ['CHANGE_LANGUAGE']),
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },

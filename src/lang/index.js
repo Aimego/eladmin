@@ -5,10 +5,10 @@ import en from './en'
 import store from '@/store'
 Vue.use(VueI18n)
 const i18n = new VueI18n({
-    locale: store.getters.language,
-    messages: {
-        'zh': zh,
-        'en': en
-    }
+  locale: store.getters.language,
+  messages: {
+    'zh': zh,
+    'en': en
+  }
 })
 export default i18n

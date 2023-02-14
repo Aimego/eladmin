@@ -1,50 +1,53 @@
 <template>
-    <div>
-        <div class="setting" @click="visibleDrawer = true">
-            <i style="color:#fff" class="el-icon-s-tools"></i>
-        </div>
-        <el-drawer
-         title="我是标题"
-         :visible.sync="visibleDrawer"
-          size="300px"
-         :with-header="false">
-            <div class="optionsBar">
-                <div class="stylize">
-                    <span class="title">整体风格设置</span>
-                    <div class="choose">
-                        <span v-for="(item) in stylizeOptions"
-                             :key="item"
-                             @click="changeThemes(item)"
-                             :class="['item',item, {'act_item': stylize == item}]"></span>
-                    </div>
-                </div>
-            </div>
-        </el-drawer>
+  <div>
+    <div class="setting" @click="visibleDrawer = true">
+      <i style="color:#fff" class="el-icon-s-tools" />
     </div>
+    <el-drawer
+      title="我是标题"
+      :visible.sync="visibleDrawer"
+      size="300px"
+      :with-header="false"
+    >
+      <div class="optionsBar">
+        <div class="stylize">
+          <span class="title">整体风格设置</span>
+          <div class="choose">
+            <span
+              v-for="(item) in stylizeOptions"
+              :key="item"
+              :class="['item',item, {'act_item': stylize == item}]"
+              @click="changeThemes(item)"
+            />
+          </div>
+        </div>
+      </div>
+    </el-drawer>
+  </div>
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
-    data() {
-        return {
-            visibleDrawer: false,
-            stylizeOptions: ['light','night'],
-            stylize: 'light',
-            checkList:[]
-        }
-    },
-    methods: {
-        ...mapMutations('settings', ['CHANGE_STYLIZE']),
-        changeThemes(type){
-            this.stylize = type
-            document.head.querySelector('#skin').setAttribute('href',`/skin/${type}.css`)
-            console.log(document.head.querySelector('#skin'))
-            this.$nextTick(()=>{
-                this.CHANGE_STYLIZE()
-            })
-        }
+  data() {
+    return {
+      visibleDrawer: false,
+      stylizeOptions: ['light', 'night'],
+      stylize: 'light',
+      checkList: []
     }
+  },
+  methods: {
+    ...mapMutations('settings', ['CHANGE_STYLIZE']),
+    changeThemes(type) {
+      this.stylize = type
+      document.head.querySelector('#skin').setAttribute('href', `/skin/${type}.css`)
+      console.log(document.head.querySelector('#skin'))
+      this.$nextTick(() => {
+        this.CHANGE_STYLIZE()
+      })
+    }
+  }
 }
 </script>
 

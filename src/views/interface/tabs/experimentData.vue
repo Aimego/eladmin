@@ -1,15 +1,15 @@
 <template>
-    <div class="webgl">
-        <div class="head">实验数据回传</div>
-        <div class="content">
-            <p class="title">1.1 http请求方式：POST/ x-www-form-urlencoded <span class="danger">注:表单提交</span></p>
-            <p>示例：</p>
-            <a href="https://ilab-x.jxust.edu/jxustapi/api/currency/record/receive">https://ilab-x.jxust.edu/jxustapi/api/currency/record/receive</a>
-            <p class="title">1.2 参数说明：</p>
-            <p class="danger">report：实验数据</p>
-            <p>示例：</p>
-            <p>
-                <pre>
+  <div class="webgl">
+    <div class="head">实验数据回传</div>
+    <div class="content">
+      <p class="title">1.1 http请求方式：POST/ x-www-form-urlencoded <span class="danger">注:表单提交</span></p>
+      <p>示例：</p>
+      <a href="https://ilab-x.jxust.edu/jxustapi/api/currency/record/receive">https://ilab-x.jxust.edu/jxustapi/api/currency/record/receive</a>
+      <p class="title">1.2 参数说明：</p>
+      <p class="danger">report：实验数据</p>
+      <p>示例：</p>
+      <p>
+        <pre>
                     <code>
         {
             <span class="key">username：</span> <span class="string">"admin"</span>,
@@ -41,23 +41,23 @@
         }
                     </code>
                 </pre>
-            </p>
-            
-            <p class="danger">des：华畅股份+时间戳 （数据需加密）</p>
-            <p>加密方式:</p>
-            <p class="danger">加密密钥：平台提供</p>
-            <p class="danger">加密方式：des算法或cbc算法</p>
-            <p class="danger">偏移量：平台提供</p>
-            <p class="danger">填充：PAD_PKCS5</p>
-            <p class="danger">输出方式：hex</p>
-            <p class="danger">access_token：1.1获取用户信息及token时获取的token</p>
-        </div>
+      </p>
+
+      <p class="danger">des：华畅股份+时间戳 （数据需加密）</p>
+      <p>加密方式:</p>
+      <p class="danger">加密密钥：平台提供</p>
+      <p class="danger">加密方式：des算法或cbc算法</p>
+      <p class="danger">偏移量：平台提供</p>
+      <p class="danger">填充：PAD_PKCS5</p>
+      <p class="danger">输出方式：hex</p>
+      <p class="danger">access_token：1.1获取用户信息及token时获取的token</p>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    
+
 }
 </script>
 

@@ -13,7 +13,7 @@ import store from '@/store'
 import i18n from '@/lang/index'
 import '@/icons' // icon
 import '@/permission' // permission control
-import * as echarts from 'echarts';
+import * as echarts from 'echarts'
 import moment from 'moment'
 import { format } from '@/utils/format'
 Vue.prototype.$echarts = echarts

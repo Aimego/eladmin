@@ -27,7 +27,7 @@ export function getMenu() {
 export function refreshToken(renew) {
   return request({
     url: '/api/currency/login/refreshToken',
-    params:{
+    params: {
       renew
     }
   })
