@@ -49,6 +49,43 @@ export const constantRoutes = [
       }
     ]
   }
+  // {
+  //   path: '/nested',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   alwaysShow: true,
+  //   hidden: false,
+  //   meta: { title: '层级结构', icon: 'el-icon-menu' },
+  //   children: [
+  //     {
+  //       path: 'menu1',
+  //       name: 'Menu1',
+  //       component: () => import('@/views/nested/menu1/index.vue'),
+  //       meta: { title: 'menu1', icon: 'el-icon-menu'},
+  //       redirect: 'noRedirect',
+  //       children: [
+  //         {
+  //           path: 'menu1-1',
+  //           name: 'Menu1-1',
+  //           component: () => import('@/views/nested/menu1/menu1-1'),
+  //           meta: { title: 'menu1-1' }
+  //         },
+  //         {
+  //           path: 'menu1-2',
+  //           name: 'Menu1-2',
+  //           component: () => import('@/views/nested/menu1/menu1-2'),
+  //           meta: { title: 'menu1-2' }
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'menu2',
+  //       name: 'Menu2',
+  //       component: () => import('@/views/nested/menu2'),
+  //       meta: { title: 'menu2' }
+  //     }
+  //   ]
+  // }
 ]
 
 export const noFindRouter = [

@@ -65,20 +65,19 @@ const actions = {
     for (let i = 0; i < routers.length; i++) {
       if (routers[i].component === 'Layout') {
         routers[i].component = Layout
-      }
-      for (let j = 0; j < (routers[i].children && routers[i].children.length); j++) {
-        const component = routers[i].children[j].component
+      } else {
+        const component = routers[i].component
         if (typeof component !== 'string') return false // 防止退出登录后 routers[i].children[j].component 已经是一个路径参数了
-        routers[i].children[j].component = loadView(component)
-        if (routers[i].children[j].children) {
-          dispatch('rankRouter', [routers[i].children[j]]) // 如果有多层结构及递归处理
-        }
+        routers[i].component = loadView(component)
+      }
+      if (routers[i].children) {
+        dispatch('mapRouter', routers[i].children)
       }
     }
   },
   setRouter({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
-      getMenu().then(res => {
+      getMenu(1, 999, {}).then(res => {
         const data = res.data
         dispatch('mapRouter', data)
         router.options.routes = [...router.options.routes, ...data]

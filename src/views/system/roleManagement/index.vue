@@ -6,60 +6,62 @@
           <el-input v-model="query.name" placeholder="请输入角色名称" size="small" />
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="primary" icon="el-icon-search" @click="getRolesAll(page, pageSize, query)">搜索</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            icon="el-icon-search"
+            @click="getRolesAll(page, pageSize, query)"
+          >搜索</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="warning" icon="el-icon-refresh-left" @click="$refs['filter-form'].resetFields()">重置</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            icon="el-icon-refresh-left"
+            @click="$refs['filter-form'].resetFields()"
+          >重置</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="edit-contain">
       <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="editRole({})">增加</el-button>
-      <el-button type="success" size="small" icon="el-icon-edit" :disabled="multipleSelection.length !== 1" @click="editRole(...multipleSelection)">修改</el-button>
-      <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length === 0" @click="deleteRole(multipleSelection)">删除</el-button>
+      <el-button
+        type="success"
+        size="small"
+        icon="el-icon-edit"
+        :disabled="multipleSelection.length !== 1"
+        @click="editRole(...multipleSelection)"
+      >修改</el-button>
+      <el-button
+        type="danger"
+        size="small"
+        icon="el-icon-delete"
+        :disabled="multipleSelection.length === 0"
+        @click="deleteRole(multipleSelection)"
+      >删除</el-button>
     </div>
 
     <div class="body-contain">
       <el-table
         v-loading="table_loading"
         :data="tableData"
-        :header-cell-style="{textAlign:'center'}"
-        :cell-style="{textAlign:'center'}"
+        :header-cell-style="{ textAlign: 'center' }"
+        :cell-style="{ textAlign: 'center' }"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column
-          type="selection"
-        />
+        <el-table-column type="selection" />
 
-        <el-table-column
-          label="角色名称"
-          prop="name"
-          show-overflow-tooltip
-        />
+        <el-table-column label="角色名称" prop="name" show-overflow-tooltip />
 
-        <el-table-column
-          label="备注"
-          prop="describe"
-        />
+        <el-table-column label="备注" prop="describe" />
 
-        <el-table-column
-          label="角色级别"
-          prop="level"
-        />
+        <el-table-column label="角色级别" prop="level" />
 
-        <el-table-column
-          label="创建人"
-          prop="createBy"
-        />
+        <el-table-column label="创建人" prop="createBy" />
 
-        <el-table-column
-          label="创建时间"
-          prop="createTime"
-        />
+        <el-table-column label="创建时间" prop="createTime" />
 
-        <el-table-column
-          label="操作"
-        >
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="small" type="primary" icon="el-icon-edit" @click="editRole(scope.row)" />
             <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteRole([scope.row])" />
@@ -67,7 +69,14 @@
         </el-table-column>
       </el-table>
     </div>
-    <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize" />
+    <Pagination
+      class="pagination"
+      :total="total"
+      :page="page"
+      :size="pageSize"
+      @currentPage="changePage"
+      @currentSize="changeSize"
+    />
     <el-dialog
       :title="editRole_title"
       :visible.sync="dialogVisible"
@@ -92,21 +101,22 @@
             show-checkbox
             node-key="_id"
             :default-checked-keys="form.authority"
-            :props="{children:'children',label:'name'}"
+            :check-strictly="true"
+            :props="{ children: 'children', label: 'name' }"
             @check="handleCheck"
           />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitRole('roleForm',form)">确 定</el-button>
+        <el-button type="primary" @click="submitRole('roleForm', form)">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getRoles, rolesMenus, addRole, editRole, deleteRole } from '@/api/system/roleManagement'
+import { rolesMenus, getRoles, addRole, editRole, deleteRole } from '@/api/system/roleManagement'
 import Pagination from '@/components/common/Pagination'
 export default {
   components: {
@@ -120,8 +130,8 @@ export default {
       page: 1,
       pageSize: 10,
       total: 0,
-      menus: [],
       form: {},
+      menus: [],
       tableData: [],
       ruleForm: {
         name: [
@@ -149,11 +159,14 @@ export default {
   },
   created() {
     this.getRolesAll(this.page, this.pageSize, this.query)
-    rolesMenus().then(res => {
-      this.menus = res.data
-    })
+    this.getMenus()
   },
   methods: {
+    getMenus() {
+      rolesMenus().then(res => {
+        this.menus = res.data
+      })
+    },
     getRolesAll(page, size, query) {
       this.table_loading = true
       getRoles(page, size, query).then(res => {
@@ -193,6 +206,7 @@ export default {
       })
     },
     handleCheck(checkedNodes, { checkedKeys }) {
+      console.log(checkedKeys)
       this.form.authority = checkedKeys
     },
     submitRole(formName, form) {
@@ -212,27 +226,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .role{
-    flex: 1;
+.role {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bgColor);
+  border-radius: 5px;
+  box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
+  width: 100%;
+  padding: 0 24px;
+
+  .header-contain {
     display: flex;
-    flex-direction: column;
-    background-color: var(--bgColor);
-    border-radius: 5px;
-    box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
-    width: 100%;
-    padding: 0 24px;
-    .header-contain{
-      display: flex;
-      margin-top: 10px;
-    }
-    .edit-contain {
-      margin-bottom: 10px;
-    }
-    .pagination {
-      height: 50px;
-      display: flex;
-      align-items: center;
-    }
+    margin-top: 10px;
   }
+
+  .edit-contain {
+    margin-bottom: 10px;
+  }
+
+  .pagination {
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+}
 </style>
 

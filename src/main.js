@@ -18,6 +18,7 @@ import moment from 'moment'
 import { format } from '@/utils/format'
 Vue.prototype.$echarts = echarts
 Vue.prototype.$moment = moment
+/*eslint no-extend-native: ["error", { "exceptions": ["Date"] }]*/
 Date.prototype.$format = format
 
 const locale = store.getters.language === 'zh' ? localeZh : localeEn
@@ -28,7 +29,6 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-
 new Vue({
   el: '#app',
   router,

@@ -1,12 +1,10 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
-
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
-
-const name = defaultSettings.title || '华畅云虚拟仿真实验共享平台' // page title
+const name = defaultSettings.title || '虚拟仿真实验后端管理系统' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -24,17 +22,50 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
+  pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        productName: 'Aimego Management',
+        win: {
+          //配置打包方式
+          icon: 'public/favicon.ico',
+          target: "nsis",
+        },
+        nsis: {
+          oneClick: false,//是否一键安装
+          allowToChangeInstallationDirectory: true, //开启自定义安装目录
+          createDesktopShortcut: true, // 是否创建桌面快捷方式
+          shortcutName: "Aimego Management", // 用于快捷方式的名称，默认为应用程序名称
+          installerIcon: 'public/favicon.ico', //安装logo
+          installerHeaderIcon: "public/favicon.ico", // 安装时头部图标
+        }
+      }
+    }
+  },
   publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
+  // 防止代码泄漏
   productionSourceMap: false,
   devServer: {
+    // public: '192.168.1.8:9528', // 展示ip选项
     port: port,
     open: false,
     overlay: {
       warnings: false,
       errors: true
+    },
+    proxy: { // 注意，因为是基于node服务进行转发的，所以只有在 dev 环境下才能起作用，
+      '/api': { // 本地接口如果有/api则进行匹配
+        target: 'http://localhost:8001', // 将匹配到的ip转发为 http://localhost:8001
+        ws: true, // 如果要代理 websockets，配置这个参数
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, // 是否跨域
+        pathRewrite: {
+          '^/api': '/' // 将匹配到的/api 替换成 /
+        }
+      }
     }
   },
   configureWebpack: {
@@ -86,7 +117,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

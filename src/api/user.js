@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+import objfilters from '@/utils/filters' // 过滤queyr对象，如果对象值为空则不传该key
 // 生成验证码
 export function getVerification() {
   return request({
@@ -17,18 +17,14 @@ export function postLogin(form) {
 }
 
 // 用户菜单获取
-export function getMenu() {
+export function getMenu(page, size, query) {
   return request({
-    url: '/user/menu_authority'
-  })
-}
-
-// 续签token
-export function refreshToken(renew) {
-  return request({
-    url: '/api/currency/login/refreshToken',
-    params: {
-      renew
+    method: 'POST',
+    url: '/user/menu_authority',
+    data: {
+      page,
+      size,
+      filters: objfilters(query)
     }
   })
 }
