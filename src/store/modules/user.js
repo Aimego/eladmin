@@ -13,6 +13,8 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     userDetail: getUserDetail(),
+    routersAll: [],
+    permissionBtns: [],
     userRouter: []
   }
 }
@@ -33,6 +35,12 @@ const mutations = {
   },
   SET_ROUTES: (state, routes) => {
     state.userRouter = routes
+  },
+  SET_ROUTESALL: (state, routersAll) => {
+    state.routersAll = routersAll
+  },
+  SET_PERMISSION_BTNS: (state, permissionBtns) => {
+    state.permissionBtns = permissionBtns
   }
 }
 const actions = {
@@ -77,12 +85,14 @@ const actions = {
   },
   setRouter({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
-      getMenu(1, 999, {}).then(res => {
-        const data = res.data
+      getMenu().then(res => {
+        const { data, permission } = res
         dispatch('mapRouter', data)
         router.options.routes = [...router.options.routes, ...data]
         router.addRoutes([...data, ...noFindRouter])
         commit('SET_ROUTES', data)
+        commit('SET_ROUTESALL', [...router.options.routes, ...data])
+        commit('SET_PERMISSION_BTNS', permission)
         resolve()
       }).catch(err => {
         reject(err)

@@ -1,17 +1,13 @@
 <template>
   <div class="dashboard">
     <el-row :gutter="24" class="header">
-      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
+      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{ span: '4-8' }">
         <div class="item">
           <div class="text">
             <!-- 引入了i18n包，中英文切换 -->
             <span class="title">{{ $t('dashboard.Total_views') }}</span>
             <div class="number">
-              <countTo
-                :start-val="0"
-                :end-val="Statistic.browse || 0"
-                :duration="2000"
-              />
+              <countTo :start-val="0" :end-val="Statistic.browse || 0" :duration="2000" />
               <span class="format">人</span>
             </div>
           </div>
@@ -19,16 +15,12 @@
         </div>
       </el-col>
 
-      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
+      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{ span: '4-8' }">
         <div class="item">
           <div class="text">
             <span class="title">{{ $t('dashboard.Total_likes') }}</span>
             <div class="number">
-              <countTo
-                :start-val="0"
-                :end-val="Statistic.likes || 0"
-                :duration="2000"
-              />
+              <countTo :start-val="0" :end-val="Statistic.likes || 0" :duration="2000" />
               <span class="format">人</span>
             </div>
           </div>
@@ -36,16 +28,12 @@
         </div>
       </el-col>
 
-      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
+      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{ span: '4-8' }">
         <div class="item">
           <div class="text">
             <span class="title">{{ $t('dashboard.Total_collection') }}</span>
             <div class="number">
-              <countTo
-                :start-val="0"
-                :end-val="Statistic.collection || 0"
-                :duration="2000"
-              />
+              <countTo :start-val="0" :end-val="Statistic.collection || 0" :duration="2000" />
               <span class="format">人</span>
             </div>
           </div>
@@ -53,16 +41,12 @@
         </div>
       </el-col>
 
-      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
+      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{ span: '4-8' }">
         <div class="item">
           <div class="text">
             <span class="title">{{ $t('dashboard.Total_course') }}</span>
             <div class="number">
-              <countTo
-                :start-val="0"
-                :end-val="Statistic.courses || 0"
-                :duration="2000"
-              />
+              <countTo :start-val="0" :end-val="Statistic.courses || 0" :duration="2000" />
               <span class="format">次</span>
             </div>
           </div>
@@ -70,16 +54,12 @@
         </div>
       </el-col>
 
-      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{span : '4-8'}">
+      <el-col style="margin-bottom:24px" :xs="24" :sm="24" :md="12" :lg="{ span: '4-8' }">
         <div class="item">
           <div class="text">
             <span class="title">{{ $t('dashboard.Total_experiments') }}</span>
             <div class="number">
-              <countTo
-                :start-val="0"
-                :end-val="Statistic.experiments || 0"
-                :duration="2000"
-              />
+              <countTo :start-val="0" :end-val="Statistic.experiments || 0" :duration="2000" />
               <span class="format">次</span>
             </div>
           </div>
@@ -107,21 +87,11 @@
               :element-loading-background="stylize.loadingColor"
               @row-click="handleCurrentRow"
             >
-              <el-table-column
-                type="index"
-                :label="$t('dashboard.table.Index')"
-              />
+              <el-table-column type="index" :label="$t('dashboard.table.Index')" />
 
-              <el-table-column
-                :label="$t('dashboard.table.Evaluation_people')"
-                prop="username"
-              />
+              <el-table-column :label="$t('dashboard.table.Evaluation_people')" prop="username" />
 
-              <el-table-column
-                :label="$t('dashboard.table.Content')"
-                prop="evaluate"
-                width="200"
-              />
+              <el-table-column :label="$t('dashboard.table.Content')" prop="evaluate" width="200" />
 
               <el-table-column
                 show-overflow-tooltip
@@ -130,14 +100,18 @@
                 width="200"
               />
 
-              <el-table-column
-                :label="$t('dashboard.table.Date')"
-                prop="gmtCreate"
-              />
+              <el-table-column :label="$t('dashboard.table.Date')" prop="gmtCreate" />
             </el-table>
           </div>
           <div class="pagination">
-            <Pagination class="pagin" :total="total" :size="pageSize" :page="page" @currentPage="changePage" @currentSize="changeSize" />
+            <Pagination
+              class="pagin"
+              :total="total"
+              :size="pageSize"
+              :page="page"
+              @currentPage="changePage"
+              @currentSize="changeSize"
+            />
           </div>
         </div>
       </el-col>
@@ -168,7 +142,11 @@
         </div>
       </el-col>
     </el-row>
-    <previewDialog :dialog-visible.sync="dialogVisible" :comment-id="commentId" @updateTable="getInitevaluate(page, pageSize)" />
+    <previewDialog
+      :dialog-visible.sync="dialogVisible"
+      :comment-id="commentId"
+      @updateTable="getInitevaluate(page, pageSize)"
+    />
   </div>
 </template>
 
@@ -202,7 +180,7 @@ export default {
         collection: 22903,
         courses: 27887,
         experiments: 59884
-      } // header统计数据
+      }
     }
   },
   computed: {
@@ -241,7 +219,6 @@ export default {
     // 头部数据展示
     getAllheaderStatistic() {
       headerStatistic().then(res => {
-        console.log(res)
         const course_count = res[1].data
         const test_count = res[2].data
         const obj = { ...res[0].data, course_count, test_count }
@@ -281,7 +258,6 @@ export default {
     },
     // 统计实验平均分
     getAllWorkbenchWeek(we, status) {
-      console.log(we, status)
       WorkbenchWeek(we, status).then(res => {
         this.$nextTick(() => {
           this.InitLineEcharts(['周一', '周二', '周三', '周四', '周五', '周六', '周日'], res.data)
@@ -304,7 +280,6 @@ export default {
     changeBar(index) {
       this.dateTabbar_index = index
       WorkbenchLately(index).then(res => {
-        console.log(res)
         const { date, count, avg } = res.data
         this.InitLineEcharts(date.reverse(), count.reverse(), avg.reverse(), this.Tabbar_unit)
       })
@@ -388,235 +363,183 @@ export default {
 </script>
 
 <style lang="scss" scoped>
- .dashboard{
-    color: var(--fontColor);
+.dashboard {
+  color: var(--fontColor);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      flex: 1;
+      display: flex;
+      height: 108px;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bgColor);
+      border-radius: 5px;
+      box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
+      padding: 24px;
+    }
+
+    .icon {
+      width: 60px;
+      height: 60px;
+    }
+
+    .text {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      .title {
+        font-size: 18px;
+      }
+
+      .number {
+        font-size: 24px;
+        color: #53CA9B;
+
+        .format {
+          font-size: 16px;
+          color: rgba(153, 153, 153, 1);
+        }
+      }
+    }
+  }
+
+  .body {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    .header{
-        flex: 15%;
+    flex-flow: row wrap;
+
+    .leftMenu {
+      padding: 0 24px;
+      border-radius: 5px;
+      box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
+      height: 100%;
+      box-sizing: border-box;
+      background-color: var(--bgColor);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      .head {
+        height: 50px;
         display: flex;
-        flex-wrap: wrap;
-        .item{
-         flex: 1;
-         display: flex;
-         height: 100%;
-         align-items: center;
-         justify-content: space-between;
-         background-color: var(--bgColor);
-         border-radius: 5px;
-         box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
-         padding: 24px;
-       }
-      .icon{
-        width: 60px;
-        height: 60px;
+        justify-content: space-between;
+        align-items: center;
+
+        .title {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .title .evaNumber {
+          margin-left: 10px;
+          font-size: 14px;
+        }
       }
-      .text{
-        height: 100%;
+
+      .pagination {
+        height: 50px;
+        display: flex;
+        align-items: center;
+      }
+
+    }
+
+    .echarts {
+      display: flex;
+      flex-direction: column;
+
+      .line {
+        flex: 1;
+        border-radius: 5px;
+        box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
+        padding: 0 24px;
+        background-color: var(--bgColor);
+        min-height: 278px;
+        margin-bottom: 24px;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
-       .title{
-          font-size: 18px;
-        }
-       .number{
-          font-size: 24px;
-          color: #53CA9B;
-          .format{
-            font-size: 16px;
-            color: rgba(153, 153, 153, 1);
+
+        .head {
+          height: 50px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .title {
+            font-size: 18px;
+            font-weight: bold;
           }
+
+          .date {
+            display: flex;
+            align-items: center;
+          }
+        }
+        .lineEcharts {
+          flex: 1;
+        }
+      }
+
+      .pie {
+        flex: 1;
+        border-radius: 5px;
+        box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
+        background-color: var(--bgColor);
+        min-height: 278px;
+        padding: 0 24px;
+        display: flex;
+        flex-direction: column;
+
+        .head {
+          height: 50px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .title {
+            font-size: 18px;
+            font-weight: bold;
+          }
+        }
+
+        .pieStatistics {
+          display: flex;
+          flex: 1;
+        }
+
+        .Statistics {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border-right: 1px solid #eee;
+
+          .number {
+            font-size: 48px;
+            color: #2A97EC;
+          }
+
+          .tips {
+            font-size: 14px;
+            color: #a9a9;
+          }
+        }
+
+        .pieEcharts {
+          flex: 1;
         }
       }
     }
-    .body{
-        flex: 85%;
-        display: flex;
-        flex-flow: row wrap;
-        .leftMenu{
-            padding: 0 24px;
-            border-radius: 5px;
-            box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
-            height: 100%;
-            box-sizing: border-box;
-            background-color: var(--bgColor);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            .head{
-              height: 50px;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              .title{
-                font-size: 18px;
-                font-weight: bold;
-              }
-              .title .evaNumber{
-                margin-left: 10px;
-                font-size: 14px;
-              }
-            }
-            .pagination{
-              height: 50px;
-              display: flex;
-              align-items: center;
-            }
-
-        }
-        .echarts{
-            display: flex;
-            flex-direction: column;
-            .line{
-                flex: 1;
-                border-radius: 5px;
-                box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
-                padding: 0 24px;
-                background-color: var(--bgColor);
-                min-height: 278px;
-                margin-bottom: 24px;
-                display: flex;
-                flex-direction: column;
-                .head{
-                    height: 50px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    .title{
-                        font-size: 18px;
-                        font-weight: bold;
-                    }
-                     .date {
-                      display: flex;
-                      align-items: center;
-                    }
-                }
-                .datePick{
-                  position: absolute;
-                  left: 14px;
-                  bottom: 0;
-                  ::v-deep .el-input__inner{
-                    width: 100px;
-                    padding: 0;
-                    border: none;
-                  }
-                }
-                .lineEcharts{
-                    flex: 1;
-                }
-            }
-            .pie{
-                flex: 1;
-                border-radius: 5px;
-                box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
-                background-color: var(--bgColor);
-                min-height: 278px;
-                padding: 0 24px;
-                display: flex;
-                flex-direction: column;
-                .head{
-                    height: 50px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    .title{
-                        font-size: 18px;
-                        font-weight: bold;
-                    }
-                }
-                .pieStatistics{
-                    display: flex;
-                    flex: 1;
-                }
-                .Statistics {
-                  flex: 1;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  justify-content: center;
-                  border-right: 1px solid #eee;
-                  .number {
-                    font-size: 48px;
-                    color: #2A97EC;
-                  }
-                  .tips {
-                    font-size: 14px;
-                    color: #a9a9;
-                  }
-                }
-                .pieEcharts {
-                  flex: 1;
-                }
-            }
-        }
-    }
- }
- @media only screen and (min-width: 768px) {
-    .el-col-sm-4-8 {
-      width: 20%;
-    }
-    .el-col-sm-offset-3-4 {
-      margin-left: 20%;
-    }
-    .el-col-sm-pull-3-4 {
-      position: relative;
-      right: 20%;
-    }
-    .el-col-sm-push-3-4 {
-      position: relative;
-      left: 20%;
-    }
   }
+}
 
-  @media only screen and (min-width: 992px) {
-    .el-col-md-4-8 {
-      width: 20%;
-    }
-    .el-col-md-offset-3-4 {
-      margin-left: 20%;
-    }
-    .el-col-md-pull-3-4 {
-      position: relative;
-      right: 20%;
-    }
-    .el-col-md-push-3-4 {
-      position: relative;
-      left: 20%;
-    }
-  }
-
-  @media only screen and (min-width: 1200px) {
-    .el-col-lg-4-8 {
-      width: 20%;
-    }
-    .el-col-lg-offset-4-8 {
-      margin-left: 20%;
-    }
-    .el-col-lg-pull-4-8 {
-      position: relative;
-      right: 20%;
-    }
-    .el-col-lg-push-4-8 {
-      position: relative;
-      left: 20%;
-    }
-  }
-
-  @media only screen and (min-width: 1920px) {
-    .el-col-xl-4-8 {
-      width: 20%;
-    }
-    .el-col-xl-offset-4-8 {
-      margin-left: 20%;
-    }
-    .el-col-xl-pull-4-8 {
-      position: relative;
-      right: 20%;
-    }
-    .el-col-xl-push-4-8 {
-      position: relative;
-      left: 20%;
-    }
-  }
 </style>

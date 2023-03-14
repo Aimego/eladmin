@@ -1,5 +1,5 @@
 <template>
-  <div class="role">
+  <div class="app-container">
     <div class="header-contain">
       <el-form ref="filter-form" inline :model="query">
         <el-form-item prop="name">
@@ -24,8 +24,15 @@
       </el-form>
     </div>
     <div class="edit-contain">
-      <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="editRole({})">增加</el-button>
       <el-button
+        v-PermissionBtns="'/system/roleManagement/add'"
+        type="primary"
+        size="small"
+        icon="el-icon-circle-plus-outline"
+        @click="editRole({})"
+      >增加</el-button>
+      <el-button
+        v-PermissionBtns="'/system/roleManagement/edit'"
         type="success"
         size="small"
         icon="el-icon-edit"
@@ -33,6 +40,7 @@
         @click="editRole(...multipleSelection)"
       >修改</el-button>
       <el-button
+        v-PermissionBtns="'/system/roleManagement/delete'"
         type="danger"
         size="small"
         icon="el-icon-delete"
@@ -63,8 +71,20 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="small" type="primary" icon="el-icon-edit" @click="editRole(scope.row)" />
-            <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteRole([scope.row])" />
+            <el-button
+              v-PermissionBtns="'/system/roleManagement/edit'"
+              size="small"
+              type="primary"
+              icon="el-icon-edit"
+              @click="editRole(scope.row)"
+            />
+            <el-button
+              v-PermissionBtns="'/system/roleManagement/delete'"
+              size="small"
+              type="danger"
+              icon="el-icon-delete"
+              @click="deleteRole([scope.row])"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -206,7 +226,6 @@ export default {
       })
     },
     handleCheck(checkedNodes, { checkedKeys }) {
-      console.log(checkedKeys)
       this.form.authority = checkedKeys
     },
     submitRole(formName, form) {
@@ -225,31 +244,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.role {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bgColor);
-  border-radius: 5px;
-  box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
-  width: 100%;
-  padding: 0 24px;
-
-  .header-contain {
-    display: flex;
-    margin-top: 10px;
-  }
-
-  .edit-contain {
-    margin-bottom: 10px;
-  }
-
-  .pagination {
-    height: 50px;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
 

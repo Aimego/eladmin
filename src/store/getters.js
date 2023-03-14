@@ -7,6 +7,7 @@ const getters = {
   token: state => state.user.token,
   refresh_token: state => state.user.refresh_token,
   userInfo: state => state.user.userDetail,
-  userRouter: state => state.user.userRouter
+  userRouter: state => state.user.userRouter,
+  permissionBtns: state => state.user.permissionBtns
 }
 export default getters

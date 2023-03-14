@@ -15,6 +15,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 import * as echarts from 'echarts'
 import moment from 'moment'
+import './utils/customDirective'
 import { format } from '@/utils/format'
 Vue.prototype.$echarts = echarts
 Vue.prototype.$moment = moment

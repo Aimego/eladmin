@@ -1,6 +1,6 @@
 <template>
-  <div class="profile">
-    <el-row class="message" :gutter="24">
+  <div class="app-container" style="background-color: none;">
+    <el-row :gutter="24">
       <el-col :sm="24" :md="8" :lg="6" style="margin-bottom:24px;">
         <el-card>
           <div slot="header">
@@ -70,7 +70,7 @@
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" size="small" @click.native="saveProfile('form',form)">保存配置</el-button>
+                  <el-button type="primary" size="small" @click.native="saveProfile('form', form)">保存配置</el-button>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
@@ -135,29 +135,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .profile{
-        color: var(--fontColor);
-        flex: 1;
-        // padding: 24px;
-        // border: 1px solid red;
-     .message{
-        height: 100%;
-        // padding: 24px;
-        // background-color: var(--bgColor);
-     }
-        .avatar{
-            font-size: 14px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .list {
-            padding: 15px 0 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            border-bottom: 1px solid #f0f3f4;
-        }
-    }
+.app-container {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+.avatar {
+  font-size: 14px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  padding: 15px 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f3f4;
+}
 </style>

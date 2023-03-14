@@ -1,5 +1,5 @@
 <template>
-  <div class="experiment">
+  <div class="app-container">
     <div class="header-contain">
       <el-form ref="filter-form" inline :model="query">
         <el-form-item prop="exname">
@@ -26,35 +26,33 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="body-contain">
-      <el-row class="content" :gutter="24">
-        <el-col v-for="item in experimentData" :key="item._id" :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
-          <div class="item">
-            <div class="left"><img :src="item.imagesurl"></div>
-            <div class="right">
-              <div class="title">{{ item.exname }}</div>
-              <div class="fullname">实验负责人：{{ item.fullname }}</div>
-              <div class="description">
-                {{ item.exinfo }}
-              </div>
-              <div class="operate">
-                <el-button type="primary" size="small" @click="experimentTabMenu(item)">编辑实验</el-button>
-                <el-button type="danger" size="small" @click="deleteExperiment(item._id)">删除实验</el-button>
-              </div>
+    <el-row class="body-contain" :gutter="24">
+      <el-col v-for="item in experimentData" :key="item._id" :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
+        <div class="item">
+          <div class="left"><img :src="item.imagesurl"></div>
+          <div class="right">
+            <div class="title">{{ item.exname }}</div>
+            <div class="fullname">实验负责人：{{ item.fullname }}</div>
+            <div class="description">
+              {{ item.exinfo }}
+            </div>
+            <div class="operate">
+              <el-button v-PermissionBtns="'/experiment/index/edit'" type="primary" size="small" @click="experimentTabMenu(item)">编辑实验</el-button>
+              <el-button v-PermissionBtns="'/experiment/index/delete'" type="danger" size="small" @click="deleteExperiment(item._id)">删除实验</el-button>
             </div>
           </div>
-        </el-col>
-        <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
-          <div class="item addItem" @click="experimentTabMenu({})">
-            <i class="icon el-icon-circle-plus-outline" />
-            <span class="text">
-              新建实验
-            </span>
-          </div>
-        </el-col>
-      </el-row>
-      <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize" />
-    </div>
+        </div>
+      </el-col>
+      <el-col :sm="24" :md="24" :lg="12" style="margin-bottom:24px">
+        <div v-PermissionBtns="'/experiment/index/add'" class="item addItem" @click="experimentTabMenu({})">
+          <i class="icon el-icon-circle-plus-outline" />
+          <span class="text">
+            新建实验
+          </span>
+        </div>
+      </el-col>
+    </el-row>
+    <Pagination class="pagination" :total="total" :page="page" :size="pageSize" @currentPage="changePage" @currentSize="changeSize" />
     <el-dialog
       class="dialog"
       :visible="dialogVisible"
@@ -157,26 +155,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .experiment{
-    color: var(--fontColor);
-    flex: 1;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bgColor);
-    padding: 0 24px;
-    .header-contain{
-      display: flex;
-      margin-top: 10px;
-    }
     .body-contain{
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      .content {
-        flex: 1;
         .item {
-            height: 210px;
+            height: 200px;
             padding: 24px;
             background-color: #fff;
             display: flex;
@@ -227,13 +209,8 @@ export default {
           }
         }
       }
-    }
-  }
-  .pagination {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
+      .pagination {
+        justify-content: flex-end;
+      }
 </style>
 

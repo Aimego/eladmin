@@ -5,6 +5,7 @@
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
+        <TagsView v-if="needTagsView" />
       </div>
       <app-main />
     </div>
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import TagsView from './components/TagsView/index.vue'
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
@@ -19,6 +21,7 @@ export default {
   name: 'Layout',
   components: {
     Navbar,
+    TagsView,
     Sidebar,
     AppMain
   },
@@ -33,6 +36,9 @@ export default {
     fixedHeader() {
       return this.$store.state.settings.fixedHeader
     },
+    needTagsView() {
+      return this.$store.state.settings.tagsView
+    },
     classObj() {
       return {
         hideSidebar: !this.sidebar.opened,
@@ -41,6 +47,8 @@ export default {
         mobile: this.device === 'mobile'
       }
     }
+  },
+  mounted() {
   },
   methods: {
     handleClickOutside() {

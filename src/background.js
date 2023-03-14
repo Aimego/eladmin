@@ -16,7 +16,7 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: 1920, // 800
     height: 1080, // 600
-    icon: path.join(__dirname,'../public/favicon.ico'),
+    icon: path.join(__dirname, '../public/favicon.ico'),
     webPreferences: {
       // Required for Spectron testing
       enableRemoteModule: !!process.env.IS_TEST,

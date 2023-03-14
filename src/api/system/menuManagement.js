@@ -1,4 +1,18 @@
 import request from '@/utils/request'
+import objfilters from '@/utils/filters' // 过滤queyr对象，如果对象值为空则不传该key
+
+// 用户菜单获取
+export function getMenu_Managements(page, size, query) {
+  return request({
+    method: 'POST',
+    url: '/menuManagement/menu_Management',
+    data: {
+      page,
+      size,
+      filters: objfilters(query)
+    }
+  })
+}
 
 // 更改目录菜单可见
 export function visibleMenuCatalog(_id, status) {
@@ -22,8 +36,21 @@ export function visibleMenuItem(_id, status) {
   })
 }
 
+// 更改按钮可见
+export function visibleMenuBtn(_id, status) {
+  return request({
+    method: 'POST',
+    url: '/menuManagement/visibleMenu_btn',
+    data: {
+      _id, status
+    }
+  })
+}
+
+// 菜单栏Format
 class FormatMenuForm {
   constructor(form) {
+    this._id = form._id
     this.path = form.path
     this.alwaysShow = form.alwaysShow
     this.name = form.name
@@ -36,6 +63,49 @@ class FormatMenuForm {
     }
     this.redirect = form.alwaysShow ? 'noRedirect' : form.redirect
     this.pid = form.pid
+  }
+}
+
+// 按钮Format
+class FormatBtnForm {
+  constructor(form) {
+    this._id = form._id
+    this.pid = form.pid,
+    this.name = form.title,
+    this.path = form.path,
+    this.sort = form.sort,
+    this.hidden = form.hidden
+  }
+}
+
+export class TransFormatMenuAndItemForm {
+  constructor(form) {
+    this.type = form.component === 'Layout' ? 0 : 1
+    this._id = form._id
+    this.path = form.path
+    this.alwaysShow = form.alwaysShow
+    this.name = form.name
+    this.topClass = form.component === 'Layout'
+    this.component = form.component
+    this.hidden = form.hidden
+    this.title = form.meta.title
+    this.icon = form.meta.icon
+    this.sort = form.meta.sort
+    this.redirect = form.redirect
+    this.pid = form.pid
+  }
+}
+
+export class TransFormatBtnForm {
+  constructor(form) {
+    this.type = 2
+    this._id = form._id
+    this.pid = form.pid
+    this.sort = form.sort
+    this.title = form.name
+    this.path = form.path
+    this.hidden = form.hidden
+    this.topClass = false
   }
 }
 
@@ -76,6 +146,26 @@ export function editMenuItem(form) {
     method: 'POST',
     url: '/menuManagement/editRouter_item',
     data: menuItem
+  })
+}
+
+// 添加按钮
+export function addMenuBtn(form) {
+  const btnItem = new FormatBtnForm(form)
+  return request({
+    method: 'POST',
+    url: '/menuManagement/addRouter_btn',
+    data: btnItem
+  })
+}
+
+// 编辑按钮
+export function editMenuBtn(form) {
+  const btnItem = new FormatBtnForm(form)
+  return request({
+    method: 'POST',
+    url: '/menuManagement/editRouter_btn',
+    data: btnItem
   })
 }
 

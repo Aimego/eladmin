@@ -1,5 +1,5 @@
 <template>
-  <div class="tools">
+  <div class="app-container">
     <div class="header-contain">
       <el-form ref="filter-form" inline :model="query">
         <el-form-item prop="originalname">
@@ -14,8 +14,8 @@
       </el-form>
     </div>
     <div class="edit-contain">
-      <el-button type="primary" size="small" icon="el-icon-upload" @click="dialogVisible = true">上传</el-button>
-      <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length === 0" @click="deleteFiles(multipleSelection)">删除</el-button>
+      <el-button v-PermissionBtns="'/systemTools/fileManagement/add'" type="primary" size="small" icon="el-icon-upload" @click="dialogVisible = true">上传</el-button>
+      <el-button v-PermissionBtns="'/systemTools/fileManagement/delete'" type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length === 0" @click="deleteFiles(multipleSelection)">删除</el-button>
     </div>
 
     <div class="body-contain">
@@ -79,7 +79,7 @@
           label="操作"
         >
           <template slot-scope="scope">
-            <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteFiles([scope.row])" />
+            <el-button v-PermissionBtns="'/systemTools/fileManagement/delete'" size="small" type="danger" icon="el-icon-delete" @click="deleteFiles([scope.row])" />
           </template>
         </el-table-column>
       </el-table>
@@ -177,24 +177,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .tools{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bgColor);
-    border-radius: 5px;
-    box-shadow: 0px 3px 8px rgba(62, 100, 146, 0.1);
-    width: 100%;
-    padding: 0 24px;
-    .header-contain{
-      display: flex;
-      margin-top: 10px;
-      // align-items: center;
-      // height: 80px;
-    }
-    .edit-contain {
-      margin-bottom: 10px;
-    }
     .image-avatar {
       display: inline-block;
       background: #ccc;
@@ -204,11 +186,5 @@ export default {
       line-height: 32px;
       border-radius: 50%;
     }
-    .pagination {
-      height: 50px;
-      display: flex;
-      align-items: center;
-    }
-  }
 </style>
 

@@ -42,11 +42,10 @@ export default {
         date: ''
       }
       switch (this.status) {
-        case 0: obj.type = 'month', obj.text = '选择月份', obj.Format = 'yyyy-MM', obj.valueFormat = 'yyyy-MM', obj.date = (new Date()).$format('yyyy-MM'); break
-        case 1: obj.type = 'week', obj.text = '选择周', obj.Format = 'yyyy-WW周', obj.valueFormat = '', obj.date = new Date(); break
-        case 2: obj.type = 'year', obj.text = '选择年份', obj.Format = 'yyyy', obj.valueFormat = 'yyyy', obj.date = (new Date()).$format('yyyy'); break
+        case 0: obj.type = 'month'; obj.text = '选择月份'; obj.Format = 'yyyy-MM'; obj.valueFormat = 'yyyy-MM'; obj.date = (new Date()).$format('yyyy-MM'); break
+        case 1: obj.type = 'week'; obj.text = '选择周'; obj.Format = 'yyyy-WW周'; obj.valueFormat = ''; obj.date = new Date(); break
+        case 2: obj.type = 'year'; obj.text = '选择年份'; obj.Format = 'yyyy'; obj.valueFormat = 'yyyy'; obj.date = (new Date()).$format('yyyy'); break
       }
-      console.log(obj.date)
       return obj
     }
   },
@@ -74,10 +73,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .datePicker{
-       ::v-deep .el-input__inner{
-            background-color: var(--bgColor);
-            color: var(--fontColor);
-       }
-    }
+.datePicker {
+  ::v-deep .el-input__inner {
+    background-color: var(--bgColor);
+    color: var(--fontColor);
+  }
+}
 </style>
